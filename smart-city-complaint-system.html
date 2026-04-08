@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CivicPulse — Smart City Feedback</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1A3C5E;
+    --primary-light: #2A5F9E;
+    --accent: #00C896;
+    --accent-dark: #009970;
+    --accent-glow: rgba(0,200,150,0.15);
+    --danger: #E84855;
+    --warning: #F4A261;
+    --info: #4FACDE;
+    --bg: #F0F4F8;
+    --bg-card: #FFFFFF;
+    --bg-dark: #0D1F33;
+    --text-primary: #0D1F33;
+    --text-secondary: #5A7A99;
+    --text-muted: #9BB5CC;
+    --border: rgba(26,60,94,0.12);
+    --border-strong: rgba(26,60,94,0.22);
+    --shadow-sm: 0 2px 12px rgba(26,60,94,0.08);
+    --shadow-md: 0 8px 32px rgba(26,60,94,0.12);
+    --shadow-lg: 0 20px 60px rgba(26,60,94,0.16);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-xs: 6px;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 99px; }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 68px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-display); font-size: 1.3rem; font-weight: 800;
+    color: var(--primary); text-decoration: none;
+  }
+  .nav-brand .logo-icon {
+    width: 36px; height: 36px; background: var(--primary);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-brand .logo-icon svg { width: 20px; height: 20px; }
+  .brand-dot { color: var(--accent); }
+  .nav-links {
+    display: flex; align-items: center; gap: 6px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.875rem; font-weight: 500;
+    color: var(--text-secondary); text-decoration: none;
+    padding: 7px 14px; border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--primary); background: rgba(26,60,94,0.07);
+  }
+  .nav-cta {
+    background: var(--primary); color: #fff !important;
+    padding: 8px 18px !important; border-radius: 10px !important;
+  }
+  .nav-cta:hover { background: var(--primary-light) !important; transform: translateY(-1px); }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .nav-avatar {
+    width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent), var(--info));
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.8rem; color: #fff; cursor: pointer;
+  }
+  .notif-btn {
+    width: 36px; height: 36px; background: var(--bg);
+    border: 1px solid var(--border); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    position: relative; transition: all 0.2s;
+  }
+  .notif-btn:hover { border-color: var(--primary); }
+  .notif-dot {
+    width: 8px; height: 8px; background: var(--danger);
+    border-radius: 50%; position: absolute; top: 7px; right: 7px;
+    border: 1.5px solid #fff;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--primary);
+    padding: 5rem 2rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(0,200,150,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 60% at 20% 20%, rgba(79,172,222,0.08) 0%, transparent 60%);
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3rem; max-width: 1200px; margin: 0 auto;
+    align-items: center; position: relative; z-index: 1;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,200,150,0.15); border: 1px solid rgba(0,200,150,0.3);
+    color: var(--accent); font-size: 0.78rem; font-weight: 600;
+    padding: 5px 12px; border-radius: 99px; margin-bottom: 1.2rem;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+  .hero-badge .pulse {
+    width: 6px; height: 6px; background: var(--accent);
+    border-radius: 50%; animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+  .hero h1 {
+    font-family: var(--font-display); font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 800; color: #fff; line-height: 1.15;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 .highlight { color: var(--accent); }
+  .hero p {
+    color: rgba(255,255,255,0.7); font-size: 1.05rem;
+    line-height: 1.75; margin-bottom: 2rem; font-weight: 300;
+  }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-body); font-size: 0.9rem; font-weight: 500;
+    padding: 12px 24px; border-radius: 12px; cursor: pointer;
+    transition: all 0.25s; border: none; text-decoration: none;
+  }
+  .btn-accent {
+    background: var(--accent); color: #fff;
+    box-shadow: 0 4px 20px rgba(0,200,150,0.35);
+  }
+  .btn-accent:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,200,150,0.45); }
+  .btn-ghost {
+    background: rgba(255,255,255,0.1); color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.18); transform: translateY(-2px); }
+  .btn-primary {
+    background: var(--primary); color: #fff;
+    box-shadow: 0 4px 16px rgba(26,60,94,0.25);
+  }
+  .btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--primary);
+    border: 1.5px solid var(--border-strong);
+  }
+  .btn-outline:hover { background: var(--primary); color: #fff; transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex; gap: 2rem; margin-top: 2.5rem;
+  }
+  .hero-stat { }
+  .hero-stat-num {
+    font-family: var(--font-display); font-size: 1.8rem; font-weight: 800;
+    color: #fff;
+  }
+  .hero-stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+
+  /* Hero visual panel */
+  .hero-visual {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px; padding: 1.5rem; backdrop-filter: blur(10px);
+  }
+  .mini-complaint-card {
+    background: rgba(255,255,255,0.08); border-radius: 12px;
+    padding: 1rem 1.2rem; margin-bottom: 0.8rem;
+    display: flex; align-items: flex-start; gap: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    animation: slideIn 0.5s ease both;
+  }
+  .mini-complaint-card:nth-child(1) { animation-delay: 0.1s; }
+  .mini-complaint-card:nth-child(2) { animation-delay: 0.2s; }
+  .mini-complaint-card:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .mini-icon {
+    width: 36px; height: 36px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .mini-icon.road { background: rgba(244,162,97,0.2); }
+  .mini-icon.water { background: rgba(79,172,222,0.2); }
+  .mini-icon.light { background: rgba(0,200,150,0.2); }
+  .mini-card-content h4 { color: #fff; font-size: 0.875rem; font-weight: 500; margin-bottom: 3px; }
+  .mini-card-content p { color: rgba(255,255,255,0.5); font-size: 0.75rem; }
+  .mini-status {
+    margin-left: auto; font-size: 0.7rem; font-weight: 600;
+    padding: 3px 9px; border-radius: 99px; flex-shrink: 0;
+  }
+  .status-open { background: rgba(232,72,85,0.2); color: #FF8A94; }
+  .status-progress { background: rgba(244,162,97,0.2); color: #F4A261; }
+  .status-resolved { background: rgba(0,200,150,0.2); color: var(--accent); }
+
+  /* ── SECTION HEADERS ── */
+  .section-header {
+    text-align: center; margin-bottom: 3rem;
+  }
+  .section-label {
+    display: inline-block; font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.4rem);
+    font-weight: 800; color: var(--primary); line-height: 1.2;
+  }
+  .section-sub { color: var(--text-secondary); font-size: 1rem; margin-top: 0.75rem; font-weight: 300; }
+
+  /* ── MAIN CONTENT ── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+  section { padding: 5rem 0; }
+
+  /* ── CATEGORY CARDS ── */
+  .categories-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .cat-card {
+    background: var(--bg-card); border-radius: var(--radius);
+    padding: 1.5rem; cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.25s;
+    box-shadow: var(--shadow-sm);
+    display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
+    position: relative; overflow: hidden;
+  }
+  .cat-card::before {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px; background: var(--cat-color);
+    transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+  }
+  .cat-card:hover::before { transform: scaleX(1); }
+  .cat-card:hover, .cat-card.active {
+    border-color: var(--cat-color); transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+  .cat-card.active { background: var(--cat-bg); }
+  .cat-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: var(--cat-bg); display: flex; align-items: center;
+    justify-content: center; font-size: 1.4rem;
+    transition: transform 0.3s;
+  }
+  .cat-card:hover .cat-icon { transform: scale(1.1) rotate(-5deg); }
+  .cat-name { font-family: var(--font-display); font-size: 0.95rem; font-weight: 700; color: var(--primary); }
+  .cat-count { font-size: 0.78rem; color: var(--text-muted); }
+  .cat-badge {
+    font-size: 0.7rem; font-weight: 700; padding: 2px 8px;
+    border-radius: 99px; background: var(--cat-bg); color: var(--cat-color);
+    margin-top: auto;
+  }
+
+  /* ── COMPLAINT FORM ── */
+  .form-section { background: #fff; }
+  .form-container {
+    display: grid; grid-template-columns: 1fr 1.3fr;
+    gap: 3rem; align-items: start;
+  }
+  .form-info h3 {
+    font-family: var(--font-display); font-size: 1.6rem; font-weight: 800;
+    color: var(--primary); margin-bottom: 1rem;
+  }
+  .form-info p { color: var(--text-secondary); line-height: 1.7; font-weight: 300; margin-bottom: 2rem; }
+  .form-steps { display: flex; flex-direction: column; gap: 1rem; }
+  .form-step {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 1rem; border-radius: 12px; background: var(--bg);
+    border: 1px solid var(--border);
+  }
+  .step-num {
+    width: 28px; height: 28px; flex-shrink: 0;
+    background: var(--primary); color: #fff;
+    border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; font-size: 0.8rem; font-weight: 700;
+    font-family: var(--font-display);
+  }
+  .step-text h4 { font-size: 0.875rem; font-weight: 600; color: var(--primary); margin-bottom: 2px; }
+  .step-text p { font-size: 0.8rem; color: var(--text-secondary); }
+
+  .complaint-form {
+    background: var(--bg); border-radius: 20px; padding: 2rem;
+    border: 1px solid var(--border);
+  }
+  .form-group { margin-bottom: 1.25rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  label {
+    display: block; font-size: 0.8rem; font-weight: 600;
+    color: var(--primary); margin-bottom: 6px; letter-spacing: 0.01em;
+  }
+  label .req { color: var(--danger); margin-left: 2px; }
+  input[type="text"], input[type="email"], input[type="tel"],
+  select, textarea {
+    width: 100%; padding: 11px 14px; font-family: var(--font-body);
+    font-size: 0.9rem; font-weight: 400;
+    background: #fff; border: 1.5px solid var(--border-strong);
+    border-radius: 10px; color: var(--text-primary);
+    transition: all 0.2s; outline: none; appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+  input::placeholder, textarea::placeholder { color: var(--text-muted); }
+  textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A7A99' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
+
+  .priority-group { display: flex; gap: 8px; }
+  .priority-btn {
+    flex: 1; padding: 9px 12px; border-radius: 8px; cursor: pointer;
+    border: 1.5px solid var(--border-strong); background: #fff;
+    font-family: var(--font-body); font-size: 0.82rem; font-weight: 500;
+    color: var(--text-secondary); transition: all 0.2s; text-align: center;
+  }
+  .priority-btn.low.active { border-color: var(--accent); background: rgba(0,200,150,0.08); color: var(--accent-dark); }
+  .priority-btn.medium.active { border-color: var(--warning); background: rgba(244,162,97,0.12); color: #c07030; }
+  .priority-btn.high.active { border-color: var(--danger); background: rgba(232,72,85,0.08); color: var(--danger); }
+  .priority-btn:hover { transform: translateY(-1px); }
+
+  .upload-zone {
+    border: 2px dashed var(--border-strong); border-radius: 12px;
+    padding: 1.5rem; text-align: center; cursor: pointer;
+    background: #fff; transition: all 0.25s;
+  }
+  .upload-zone:hover { border-color: var(--accent); background: var(--accent-glow); }
+  .upload-zone-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .upload-zone p { font-size: 0.82rem; color: var(--text-secondary); }
+  .upload-zone span { color: var(--accent); font-weight: 600; }
+
+  .form-submit-row { display: flex; gap: 10px; margin-top: 0.5rem; justify-content: flex-end; }
+
+  /* ── TRACKING SECTION ── */
+  .tracking-section { background: var(--bg); }
+  .tracker-layout { display: grid; grid-template-columns: 1fr 1.6fr; gap: 2.5rem; }
+
+  .search-box {
+    position: relative; margin-bottom: 1.25rem;
+  }
+  .search-box input {
+    width: 100%; padding: 12px 14px 12px 44px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 12px; font-size: 0.9rem;
+    background: #fff; outline: none; transition: all 0.2s;
+  }
+  .search-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+  .search-icon {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--text-muted); pointer-events: none;
+  }
+
+  .filter-tabs { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .filter-tab {
+    padding: 7px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 600;
+    cursor: pointer; border: 1.5px solid var(--border-strong); background: #fff;
+    color: var(--text-secondary); transition: all 0.2s; font-family: var(--font-body);
+  }
+  .filter-tab.active, .filter-tab:hover {
+    background: var(--primary); color: #fff; border-color: var(--primary);
+  }
+
+  .complaint-list { display: flex; flex-direction: column; gap: 0.75rem; max-height: 500px; overflow-y: auto; }
+  .complaint-item {
+    background: #fff; border-radius: 12px; padding: 1rem 1.2rem;
+    border: 1.5px solid var(--border); cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .complaint-item:hover, .complaint-item.selected {
+    border-color: var(--primary); box-shadow: var(--shadow-sm);
+  }
+  .complaint-item.selected { background: #f0f7ff; }
+  .item-cat-icon {
+    width: 38px; height: 38px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .item-details { flex: 1; min-width: 0; }
+  .item-title { font-size: 0.875rem; font-weight: 600; color: var(--primary); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .item-meta { font-size: 0.75rem; color: var(--text-muted); }
+  .item-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .status-badge {
+    font-size: 0.7rem; font-weight: 700; padding: 3px 9px;
+    border-radius: 99px; white-space: nowrap;
+  }
+  .badge-open { background: #FEE8EA; color: #C9202E; }
+  .badge-progress { background: #FEF3E7; color: #C4621A; }
+  .badge-resolved { background: #E6FAF4; color: #07845E; }
+  .badge-review { background: #EAF4FF; color: #1565C0; }
+  .item-date { font-size: 0.7rem; color: var(--text-muted); }
+
+  /* Complaint detail panel */
+  .complaint-detail {
+    background: #fff; border-radius: 20px;
+    border: 1px solid var(--border); overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .detail-header {
+    background: var(--primary); padding: 1.5rem;
+    display: flex; align-items: flex-start; gap: 14px;
+  }
+  .detail-cat-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+  }
+  .detail-header-info h3 {
+    font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+    color: #fff; margin-bottom: 5px;
+  }
+  .detail-header-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+  .detail-tag {
+    font-size: 0.72rem; font-weight: 600; padding: 3px 10px;
+    border-radius: 99px; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8);
+  }
+  .detail-body { padding: 1.5rem; }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+  .detail-field label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
+  .detail-field p { font-size: 0.875rem; color: var(--text-primary); font-weight: 500; }
+
+  .timeline { position: relative; padding-left: 20px; }
+  .timeline::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 2px; background: var(--border); }
+  .timeline-item { position: relative; margin-bottom: 1.2rem; }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -19px; top: 5px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--border); border: 2px solid #fff;
+  }
+  .timeline-item.done::before { background: var(--accent); }
+  .timeline-item.current::before { background: var(--warning); box-shadow: 0 0 0 3px rgba(244,162,97,0.3); }
+  .timeline-title { font-size: 0.82rem; font-weight: 600; color: var(--primary); }
+  .timeline-date { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+
+  /* ── DASHBOARD ── */
+  .dashboard-section { background: #fff; }
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem; margin-bottom: 2rem;
+  }
+  .stat-card {
+    background: var(--bg); border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .stat-card::after {
+    content: ''; position: absolute; right: -10px; bottom: -10px;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--stat-color); opacity: 0.08;
+  }
+  .stat-label { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+  .stat-value { font-family: var(--font-display); font-size: 2rem; font-weight: 800; color: var(--primary); }
+  .stat-trend { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+  .stat-icon { position: absolute; top: 1.2rem; right: 1.2rem; font-size: 1.4rem; opacity: 0.6; }
+  .trend-up { color: var(--accent); }
+  .trend-down { color: var(--danger); }
+
+  .charts-row { display: grid; grid-template-columns: 1.5fr 1fr; gap: 1.5rem; }
+  .chart-card {
+    background: var(--bg); border-radius: var(--radius); padding: 1.5rem;
+    border: 1px solid var(--border);
+  }
+  .chart-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+  .chart-card-header h4 { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--primary); }
+  .chart-placeholder { height: 200px; display: flex; align-items: flex-end; gap: 8px; padding: 0 4px; }
+  .bar {
+    flex: 1; border-radius: 6px 6px 0 0; position: relative;
+    cursor: pointer; transition: all 0.3s; transform-origin: bottom;
+    animation: growUp 0.6s ease both;
+  }
+  @keyframes growUp {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+  .bar:hover { filter: brightness(1.1); transform: scaleY(1.02); }
+  .bar-label { position: absolute; bottom: -22px; left: 0; right: 0; text-align: center; font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
+
+  .donut-chart {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; height: 200px; gap: 1rem;
+  }
+  .donut-svg { width: 130px; height: 130px; }
+  .donut-legend { width: 100%; }
+  .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.78rem; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+  .legend-label { color: var(--text-secondary); flex: 1; }
+  .legend-val { font-weight: 600; color: var(--primary); }
+
+  /* ── FEEDBACK / RATINGS ── */
+  .feedback-section { background: var(--bg); }
+  .feedback-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 2.5rem; }
+  .feedback-card {
+    background: #fff; border-radius: var(--radius); padding: 1.5rem;
+    border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+  }
+  .feedback-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+  .feedback-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.85rem; color: #fff;
+  }
+  .feedback-name { font-size: 0.9rem; font-weight: 600; color: var(--primary); }
+  .feedback-date { font-size: 0.72rem; color: var(--text-muted); }
+  .star-row { display: flex; gap: 3px; margin-bottom: 0.75rem; }
+  .star { font-size: 0.9rem; }
+  .star.filled { color: #F4C430; }
+  .star.empty { color: var(--border-strong); }
+  .feedback-text { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; font-weight: 300; }
+  .feedback-tag {
+    display: inline-block; margin-top: 0.75rem; font-size: 0.7rem; font-weight: 600;
+    padding: 3px 10px; border-radius: 99px;
+    background: rgba(0,200,150,0.1); color: var(--accent-dark);
+  }
+
+  /* Rating widget */
+  .rating-widget {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    border-radius: 20px; padding: 2.5rem; display: grid;
+    grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center;
+  }
+  .rating-left h3 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+  .rating-left p { color: rgba(255,255,255,0.65); font-size: 0.875rem; font-weight: 300; }
+  .rating-stars-big { display: flex; gap: 8px; margin-top: 1.5rem; }
+  .rating-star-btn {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.15);
+    cursor: pointer; font-size: 1.5rem; display: flex; align-items: center;
+    justify-content: center; transition: all 0.2s; color: rgba(255,255,255,0.5);
+  }
+  .rating-star-btn:hover, .rating-star-btn.active {
+    background: rgba(244,196,48,0.2); border-color: #F4C430;
+    color: #F4C430; transform: scale(1.1);
+  }
+  .rating-form { display: flex; flex-direction: column; gap: 10px; }
+  .rating-form textarea {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    color: #fff; border-radius: 12px; resize: none; min-height: 80px;
+  }
+  .rating-form textarea::placeholder { color: rgba(255,255,255,0.35); }
+  .rating-form textarea:focus { border-color: var(--accent); background: rgba(255,255,255,0.12); }
+
+  /* ── MAP SECTION ── */
+  .map-section { background: #fff; }
+  .map-container {
+    background: var(--bg); border-radius: 20px; overflow: hidden;
+    border: 1px solid var(--border); height: 380px; position: relative;
+  }
+  .map-svg { width: 100%; height: 100%; }
+  .map-legend {
+    position: absolute; bottom: 1rem; left: 1rem;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(8px);
+    border-radius: 12px; padding: 0.75rem 1rem;
+    border: 1px solid var(--border); display: flex; gap: 1rem; flex-wrap: wrap;
+  }
+  .map-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--text-secondary); font-weight: 500; }
+  .map-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .map-counter {
+    position: absolute; top: 1rem; right: 1rem;
+    background: var(--primary); color: #fff;
+    border-radius: 12px; padding: 0.75rem 1.25rem;
+    font-family: var(--font-display); font-size: 1.2rem; font-weight: 800;
+    box-shadow: var(--shadow-md);
+  }
+  .map-counter span { display: block; font-size: 0.65rem; font-weight: 400; opacity: 0.7; }
+
+  .map-hotspot {
+    cursor: pointer; transition: all 0.2s;
+  }
+  .map-hotspot circle { transition: r 0.2s; }
+  .map-hotspot:hover circle { r: 20; }
+
+  /* ── NOTIFICATION TOAST ── */
+  .toast-container {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+    display: flex; flex-direction: column; gap: 0.75rem;
+  }
+  .toast {
+    background: var(--primary); color: #fff;
+    border-radius: 12px; padding: 1rem 1.25rem;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: var(--shadow-lg); min-width: 280px;
+    animation: toastIn 0.4s ease;
+    border-left: 4px solid var(--accent);
+  }
+  @keyframes toastIn {
+    from { transform: translateX(100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  .toast-icon { font-size: 1.2rem; }
+  .toast-text h4 { font-size: 0.875rem; font-weight: 600; }
+  .toast-text p { font-size: 0.78rem; opacity: 0.7; }
+  .toast-close { margin-left: auto; cursor: pointer; opacity: 0.6; background: none; border: none; color: #fff; font-size: 1rem; }
+  .toast-close:hover { opacity: 1; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(13,31,51,0.7); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center; padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: #fff; border-radius: 20px; max-width: 520px; width: 100%;
+    padding: 2rem; position: relative; animation: modalIn 0.3s ease;
+    max-height: 90vh; overflow-y: auto;
+  }
+  @keyframes modalIn {
+    from { transform: scale(0.9) translateY(-20px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+  }
+  .modal-close {
+    position: absolute; top: 1.25rem; right: 1.25rem;
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--bg); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-secondary); font-size: 1.1rem; transition: all 0.2s;
+  }
+  .modal-close:hover { background: var(--danger); color: #fff; }
+  .modal h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 0.5rem; }
+  .modal p.sub { color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 1.5rem; }
+  .success-icon {
+    width: 64px; height: 64px; background: rgba(0,200,150,0.12);
+    border-radius: 50%; margin: 0 auto 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+  }
+  .tracking-id {
+    background: var(--bg); border-radius: 12px; padding: 1rem;
+    text-align: center; margin: 1rem 0; border: 1px dashed var(--border-strong);
+  }
+  .tracking-id .id-num {
+    font-family: var(--font-display); font-size: 1.5rem; font-weight: 800;
+    color: var(--primary); letter-spacing: 0.1em;
+  }
+  .tracking-id .id-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg-dark); color: rgba(255,255,255,0.6);
+    padding: 3rem 2rem 2rem;
+  }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; max-width: 1200px; margin: 0 auto 2rem; }
+  .footer-brand { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; color: #fff; margin-bottom: 0.75rem; }
+  .footer-brand span { color: var(--accent); }
+  .footer-desc { font-size: 0.82rem; line-height: 1.7; margin-bottom: 1rem; }
+  .footer-socials { display: flex; gap: 8px; }
+  .social-btn {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; color: rgba(255,255,255,0.5); cursor: pointer;
+    transition: all 0.2s;
+  }
+  .social-btn:hover { background: var(--accent); color: #fff; border-color: transparent; }
+  .footer-col h5 { font-family: var(--font-display); color: #fff; font-size: 0.875rem; font-weight: 700; margin-bottom: 1rem; }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.5rem; }
+  .footer-links a { font-size: 0.8rem; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-bottom {
+    max-width: 1200px; margin: 0 auto;
+    padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.78rem;
+  }
+  .footer-bottom span { color: var(--accent); }
+
+  /* ── ACTIVE NAV HIGHLIGHT ── */
+  .active-section-nav { color: var(--primary) !important; background: rgba(26,60,94,0.07) !important; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero-grid, .form-container, .tracker-layout, .charts-row, .footer-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .feedback-cards { grid-template-columns: 1fr; }
+    .rating-widget { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hero-visual { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="logo-icon">
+      <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 2L3 6v8l7 4 7-4V6L10 2z" stroke="#00C896" stroke-width="1.5" fill="none"/>
+        <path d="M10 2v12M3 6l7 4M17 6l-7 4" stroke="#00C896" stroke-width="1.2" opacity="0.6"/>
+      </svg>
+    </div>
+    Civic<span class="brand-dot">Pulse</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home" class="active" onclick="setActive(this)">Home</a></li>
+    <li><a href="#report" onclick="setActive(this)">Report Issue</a></li>
+    <li><a href="#track" onclick="setActive(this)">Track Status</a></li>
+    <li><a href="#dashboard" onclick="setActive(this)">Dashboard</a></li>
+    <li><a href="#feedback" onclick="setActive(this)">Feedback</a></li>
+    <li><a href="#map" onclick="setActive(this)">City Map</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="notif-btn" onclick="showToast('You have 3 new updates on your complaints','Notifications')">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4.5 4.5 0 00-4.5 4.5v2L2 10h12l-1.5-1.5v-2A4.5 4.5 0 008 2z" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <div class="notif-dot"></div>
+    </div>
+    <div class="nav-avatar" onclick="showToast('Profile settings coming soon','User Profile')">RM</div>
+    <a href="#report" class="nav-links"><a href="#report" class="btn nav-cta" style="font-size:0.82rem; padding:8px 16px; margin:0;">+ Report</a></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-badge"><div class="pulse"></div>Live City Dashboard</div>
+      <h1>Your Voice Shapes a <span class="highlight">Smarter City</span></h1>
+      <p>Report civic issues, track resolutions, and measure the impact of your feedback. Together we build a city that works for everyone.</p>
+      <div class="hero-actions">
+        <a href="#report" class="btn btn-accent">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          Report an Issue
+        </a>
+        <a href="#track" class="btn btn-ghost">Track My Complaint →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num">2,847</div><div class="hero-stat-label">Issues Resolved</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">94%</div><div class="hero-stat-label">Satisfaction Rate</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">48h</div><div class="hero-stat-label">Avg Response Time</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div style="font-size:0.72rem; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.75rem; font-weight:600;">Recent Complaints</div>
+      <div class="mini-complaint-card">
+        <div class="mini-icon road">🚧</div>
+        <div class="mini-card-content">
+          <h4>Pothole on MG Road</h4>
+          <p>Ward 12 · Roads & Infrastructure</p>
+        </div>
+        <div class="mini-status status-progress">In Progress</div>
+      </div>
+      <div class="mini-complaint-card">
+        <div class="mini-icon water">💧</div>
+        <div class="mini-card-content">
+          <h4>Water Supply Disruption</h4>
+          <p>Ward 7 · Water & Sewage</p>
+        </div>
+        <div class="mini-status status-open">Open</div>
+      </div>
+      <div class="mini-complaint-card">
+        <div class="mini-icon light">💡</div>
+        <div class="mini-card-content">
+          <h4>Street Light Outage</h4>
+          <p>Ward 4 · Electricity</p>
+        </div>
+        <div class="mini-status status-resolved">Resolved</div>
+      </div>
+      <div style="margin-top:1rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.08); display:flex; justify-content:space-between; align-items:center;">
+        <span style="font-size:0.75rem; color:rgba(255,255,255,0.4);">Updated 2 mins ago</span>
+        <button class="btn btn-ghost" style="font-size:0.75rem; padding:6px 14px;" onclick="document.querySelector('#track').scrollIntoView({behavior:'smooth'})">View All →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section id="categories">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Categories</span>
+      <h2 class="section-title">What Issue Do You Want to Report?</h2>
+      <p class="section-sub">Select a category to quickly route your complaint to the right department</p>
+    </div>
+    <div class="categories-grid" id="catGrid">
+    </div>
+  </div>
+</section>
+
+<!-- REPORT FORM -->
+<section id="report" class="form-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Report</span>
+      <h2 class="section-title">Submit Your Complaint</h2>
+      <p class="section-sub">Fill in the details below — it takes less than 3 minutes</p>
+    </div>
+    <div class="form-container">
+      <div class="form-info">
+        <h3>How it works</h3>
+        <p>Your complaint is routed to the relevant city department. Our AI system prioritizes issues based on urgency and location density.</p>
+        <div class="form-steps">
+          <div class="form-step"><div class="step-num">1</div><div class="step-text"><h4>Submit Details</h4><p>Describe the issue with location and photos</p></div></div>
+          <div class="form-step"><div class="step-num">2</div><div class="step-text"><h4>Get Tracking ID</h4><p>Receive a unique ID to monitor progress</p></div></div>
+          <div class="form-step"><div class="step-num">3</div><div class="step-text"><h4>Department Review</h4><p>Issue assigned to concerned department</p></div></div>
+          <div class="form-step"><div class="step-num">4</div><div class="step-text"><h4>Resolution & Feedback</h4><p>Rate the resolution quality</p></div></div>
+        </div>
+      </div>
+      <div class="complaint-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name <span class="req">*</span></label>
+            <input type="text" placeholder="e.g. Rajesh Mehta" id="f-name">
+          </div>
+          <div class="form-group">
+            <label>Mobile Number <span class="req">*</span></label>
+            <input type="tel" placeholder="+91 98765 43210" id="f-phone">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="your@email.com" id="f-email">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Category <span class="req">*</span></label>
+            <select id="f-cat">
+              <option value="">Select category</option>
+              <option>🚧 Roads & Infrastructure</option>
+              <option>💧 Water & Sewage</option>
+              <option>🗑️ Waste Management</option>
+              <option>💡 Street Lighting</option>
+              <option>🌳 Parks & Environment</option>
+              <option>🚌 Public Transport</option>
+              <option>🏥 Health Services</option>
+              <option>📶 Public Wi-Fi</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Ward / Area <span class="req">*</span></label>
+            <select id="f-ward">
+              <option value="">Select ward</option>
+              <option>Ward 1 — Andheri East</option>
+              <option>Ward 2 — Andheri West</option>
+              <option>Ward 3 — Borivali</option>
+              <option>Ward 4 — Bandra</option>
+              <option>Ward 5 — Chembur</option>
+              <option>Ward 6 — Dharavi</option>
+              <option>Ward 7 — Ghatkopar</option>
+              <option>Ward 8 — Juhu</option>
+              <option>Ward 9 — Kurla</option>
+              <option>Ward 10 — Malad</option>
+              <option>Ward 11 — Santacruz</option>
+              <option>Ward 12 — Vikhroli</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Exact Address / Landmark <span class="req">*</span></label>
+          <input type="text" placeholder="e.g. Near HDFC Bank, Linking Road" id="f-address">
+        </div>
+        <div class="form-group">
+          <label>Complaint Title <span class="req">*</span></label>
+          <input type="text" placeholder="Brief title of the issue" id="f-title">
+        </div>
+        <div class="form-group">
+          <label>Detailed Description <span class="req">*</span></label>
+          <textarea placeholder="Describe the issue in detail — when did it start, how severe is it, who is affected..." id="f-desc"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Priority Level</label>
+          <div class="priority-group">
+            <div class="priority-btn low active" onclick="setPriority(this,'low')">🟢 Low</div>
+            <div class="priority-btn medium" onclick="setPriority(this,'medium')">🟡 Medium</div>
+            <div class="priority-btn high" onclick="setPriority(this,'high')">🔴 High</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Attach Photos / Videos</label>
+          <div class="upload-zone" onclick="showToast('File upload simulation — attach photos or videos','Attachment')">
+            <div class="upload-zone-icon">📎</div>
+            <p><span>Click to upload</span> or drag and drop</p>
+            <p style="font-size:0.72rem; margin-top:4px;">PNG, JPG, MP4 up to 10MB</p>
+          </div>
+        </div>
+        <div class="form-submit-row">
+          <button class="btn btn-outline" type="button" onclick="clearForm()">Clear Form</button>
+          <button class="btn btn-primary" type="button" onclick="submitComplaint()">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 4l5 4-5 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Submit Complaint
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACKING -->
+<section id="track" class="tracking-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Track</span>
+      <h2 class="section-title">Complaint Status Tracker</h2>
+      <p class="section-sub">Search by tracking ID or browse recent complaints</p>
+    </div>
+    <div class="tracker-layout">
+      <div>
+        <div class="search-box">
+          <span class="search-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </span>
+          <input type="text" placeholder="Search by ID, keyword or location..." oninput="filterComplaints(this.value)">
+        </div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" onclick="filterTab(this,'all')">All</button>
+          <button class="filter-tab" onclick="filterTab(this,'open')">Open</button>
+          <button class="filter-tab" onclick="filterTab(this,'progress')">In Progress</button>
+          <button class="filter-tab" onclick="filterTab(this,'resolved')">Resolved</button>
+        </div>
+        <div class="complaint-list" id="complaintList"></div>
+      </div>
+      <div class="complaint-detail" id="detailPanel">
+        <div class="detail-header">
+          <div class="detail-cat-icon" id="detail-icon">🚧</div>
+          <div class="detail-header-info">
+            <h3 id="detail-title">Pothole on MG Road near Bus Stop</h3>
+            <div class="detail-header-meta">
+              <span class="detail-tag" id="detail-id">#CP-2024-001</span>
+              <span class="detail-tag" id="detail-ward">Ward 12</span>
+              <span class="detail-tag" id="detail-cat">Roads</span>
+            </div>
+          </div>
+        </div>
+        <div class="detail-body">
+          <div class="detail-grid">
+            <div class="detail-field"><label>Reported By</label><p id="detail-name">Rahul Sharma</p></div>
+            <div class="detail-field"><label>Date Filed</label><p id="detail-date">12 Mar 2025</p></div>
+            <div class="detail-field"><label>Priority</label><p id="detail-priority">🔴 High</p></div>
+            <div class="detail-field"><label>Department</label><p id="detail-dept">Roads & Infrastructure</p></div>
+            <div class="detail-field" style="grid-column:1/-1"><label>Address</label><p id="detail-addr">Near Kohinoor Hotel, MG Road, Andheri East</p></div>
+          </div>
+          <div style="margin-bottom:1.25rem;">
+            <label style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); margin-bottom:0.5rem; font-weight:600; display:block;">Description</label>
+            <p id="detail-desc" style="font-size:0.875rem; color:var(--text-secondary); line-height:1.7; font-weight:300;">A large pothole has formed near the main bus stop causing danger to vehicles and pedestrians. Multiple accidents have been reported in the past week. Immediate attention required.</p>
+          </div>
+          <label style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); margin-bottom:0.75rem; font-weight:600; display:block;">Progress Timeline</label>
+          <div class="timeline" id="detail-timeline">
+            <div class="timeline-item done"><div class="timeline-title">Complaint Registered</div><div class="timeline-date">12 Mar 2025 · 10:23 AM</div></div>
+            <div class="timeline-item done"><div class="timeline-title">Assigned to Department</div><div class="timeline-date">12 Mar 2025 · 2:15 PM</div></div>
+            <div class="timeline-item current"><div class="timeline-title">Field Inspection Scheduled</div><div class="timeline-date">14 Mar 2025 · Pending</div></div>
+            <div class="timeline-item"><div class="timeline-title">Repair Works</div><div class="timeline-date">Awaiting</div></div>
+            <div class="timeline-item"><div class="timeline-title">Issue Resolved & Closed</div><div class="timeline-date">Awaiting</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="dashboard-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Analytics</span>
+      <h2 class="section-title">City Dashboard</h2>
+      <p class="section-sub">Real-time insights into complaint trends and department performance</p>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card" style="--stat-color:#1A3C5E">
+        <div class="stat-icon">📋</div>
+        <div class="stat-label">Total Complaints</div>
+        <div class="stat-value">3,492</div>
+        <div class="stat-trend trend-up">↑ 12% this month</div>
+      </div>
+      <div class="stat-card" style="--stat-color:#00C896">
+        <div class="stat-icon">✅</div>
+        <div class="stat-label">Resolved</div>
+        <div class="stat-value">2,847</div>
+        <div class="stat-trend trend-up">↑ 18% this month</div>
+      </div>
+      <div class="stat-card" style="--stat-color:#F4A261">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-label">In Progress</div>
+        <div class="stat-value">412</div>
+        <div class="stat-trend" style="color:var(--warning);">● Active</div>
+      </div>
+      <div class="stat-card" style="--stat-color:#E84855">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-label">Avg. Resolution</div>
+        <div class="stat-value">2.3d</div>
+        <div class="stat-trend trend-up">↓ 0.5d faster</div>
+      </div>
+    </div>
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <h4>Monthly Complaints & Resolutions</h4>
+          <select style="font-size:0.78rem; padding:5px 10px; border-radius:8px; border:1px solid var(--border); width:auto;"><option>2025</option><option>2024</option></select>
+        </div>
+        <div class="chart-placeholder" id="barChart"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header"><h4>By Category</h4></div>
+        <div class="donut-chart">
+          <svg class="donut-svg" viewBox="0 0 130 130" id="donutSVG"></svg>
+          <div class="donut-legend" id="donutLegend"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEEDBACK -->
+<section id="feedback" class="feedback-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Feedback</span>
+      <h2 class="section-title">Citizen Reviews</h2>
+      <p class="section-sub">See what residents say about our city services</p>
+    </div>
+    <div class="feedback-cards" id="feedbackCards"></div>
+    <div class="rating-widget">
+      <div class="rating-left">
+        <h3>Rate Your Experience</h3>
+        <p>Help us improve city services with your honest feedback on recent complaint handling.</p>
+        <div class="rating-stars-big" id="ratingStars">
+          <div class="rating-star-btn" onclick="setRating(1)">★</div>
+          <div class="rating-star-btn" onclick="setRating(2)">★</div>
+          <div class="rating-star-btn" onclick="setRating(3)">★</div>
+          <div class="rating-star-btn" onclick="setRating(4)">★</div>
+          <div class="rating-star-btn" onclick="setRating(5)">★</div>
+        </div>
+      </div>
+      <div class="rating-form">
+        <input type="text" placeholder="Tracking ID (optional)" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; border-radius:12px; padding:11px 14px; font-family:var(--font-body); font-size:0.9rem; outline:none; width:100%;">
+        <textarea placeholder="Share your experience with the resolution process..."></textarea>
+        <button class="btn btn-accent" onclick="submitFeedback()">Submit Feedback</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP -->
+<section id="map" class="map-section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">City Map</span>
+      <h2 class="section-title">Complaint Heatmap</h2>
+      <p class="section-sub">Interactive visualization of reported issues across the city</p>
+    </div>
+    <div class="map-container">
+      <div class="map-counter">
+        247 <span>Active Issues</span>
+      </div>
+      <svg class="map-svg" viewBox="0 0 900 380" id="cityMap" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div class="map-legend">
+        <div class="map-legend-item"><div class="map-dot" style="background:#E84855"></div>High Density</div>
+        <div class="map-legend-item"><div class="map-dot" style="background:#F4A261"></div>Medium Density</div>
+        <div class="map-legend-item"><div class="map-dot" style="background:#00C896"></div>Low Density</div>
+        <div class="map-legend-item"><div class="map-dot" style="background:#4FACDE"></div>Resolved Zone</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Civic<span>Pulse</span></div>
+      <p class="footer-desc">A smart platform connecting citizens with city administration for faster, transparent complaint resolution and urban improvement.</p>
+      <div class="footer-socials">
+        <div class="social-btn" onclick="showToast('Twitter/X page','Social Media')">𝕏</div>
+        <div class="social-btn" onclick="showToast('Facebook page','Social Media')">f</div>
+        <div class="social-btn" onclick="showToast('Instagram page','Social Media')">ig</div>
+        <div class="social-btn" onclick="showToast('YouTube channel','Social Media')">▶</div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <ul class="footer-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#report">Report Issue</a></li>
+        <li><a href="#track">Track Complaint</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Departments</h5>
+      <ul class="footer-links">
+        <li><a href="#">Roads & Infrastructure</a></li>
+        <li><a href="#">Water & Sewage</a></li>
+        <li><a href="#">Waste Management</a></li>
+        <li><a href="#">Street Lighting</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Help & Support</h5>
+      <ul class="footer-links">
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Help Center</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 <span>CivicPulse</span>. All rights reserved. Smart City Initiative.</div>
+    <div>Made with ❤️ for Better Cities</div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="success-icon">✅</div>
+    <h2 style="text-align:center;">Complaint Submitted!</h2>
+    <p class="sub" style="text-align:center;">Your complaint has been registered and assigned to the relevant department. Track your status using the ID below.</p>
+    <div class="tracking-id">
+      <div class="id-num" id="generatedId">#CP-2025-4821</div>
+      <div class="id-label">Save this tracking ID</div>
+    </div>
+    <p style="font-size:0.82rem; color:var(--text-secondary); text-align:center; margin-bottom:1.5rem; line-height:1.6;">Expected response time: <strong style="color:var(--primary)">24–48 hours</strong>. You'll receive updates via SMS and email.</p>
+    <div style="display:flex; gap:10px;">
+      <button class="btn btn-outline" style="flex:1;" onclick="copyId()">📋 Copy ID</button>
+      <button class="btn btn-primary" style="flex:1;" onclick="closeModal();document.querySelector('#track').scrollIntoView({behavior:'smooth'})">Track Status →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ── CATEGORIES DATA ──
+const categories = [
+  { name: 'Roads & Infrastructure', icon: '🚧', color: '#F4A261', bg: 'rgba(244,162,97,0.1)', count: 842, badge: 'Most Reported' },
+  { name: 'Water & Sewage', icon: '💧', color: '#4FACDE', bg: 'rgba(79,172,222,0.1)', count: 534, badge: '' },
+  { name: 'Waste Management', icon: '🗑️', color: '#00C896', bg: 'rgba(0,200,150,0.1)', count: 621, badge: '' },
+  { name: 'Street Lighting', icon: '💡', color: '#F4C430', bg: 'rgba(244,196,48,0.1)', count: 289, badge: '' },
+  { name: 'Parks & Environment', icon: '🌳', color: '#22C55E', bg: 'rgba(34,197,94,0.1)', count: 174, badge: '' },
+  { name: 'Public Transport', icon: '🚌', color: '#8B5CF6', bg: 'rgba(139,92,246,0.1)', count: 312, badge: '' },
+  { name: 'Health Services', icon: '🏥', color: '#E84855', bg: 'rgba(232,72,85,0.1)', count: 198, badge: 'Urgent' },
+  { name: 'Public Wi-Fi', icon: '📶', color: '#1A3C5E', bg: 'rgba(26,60,94,0.1)', count: 145, badge: '' },
+];
+
+const catGrid = document.getElementById('catGrid');
+categories.forEach((cat, i) => {
+  const el = document.createElement('div');
+  el.className = 'cat-card';
+  el.style.cssText = `--cat-color:${cat.color};--cat-bg:${cat.bg}`;
+  el.innerHTML = `
+    <div class="cat-icon">${cat.icon}</div>
+    <div>
+      <div class="cat-name">${cat.name}</div>
+      <div class="cat-count">${cat.count} complaints</div>
+    </div>
+    ${cat.badge ? `<div class="cat-badge">${cat.badge}</div>` : ''}
+  `;
+  el.onclick = () => {
+    document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('f-cat').value = cat.icon + ' ' + cat.name;
+    document.querySelector('#report').scrollIntoView({ behavior: 'smooth' });
+    showToast(`Category "${cat.name}" selected`, 'Quick Select');
+  };
+  catGrid.appendChild(el);
+});
+
+// ── COMPLAINTS DATA ──
+const complaints = [
+  { id: '#CP-2025-001', title: 'Pothole on MG Road near Bus Stop', cat: '🚧', catName: 'Roads', ward: 'Ward 12', name: 'Rahul Sharma', date: '12 Mar 2025', status: 'progress', priority: '🔴 High', dept: 'Roads & Infrastructure', addr: 'Near HDFC Bank, MG Road, Andheri East', desc: 'A large pothole has formed near the main bus stop causing danger to vehicles and pedestrians. Multiple accidents reported in the past week.', iconBg: 'rgba(244,162,97,0.15)', timeline: ['done','done','current','',''] },
+  { id: '#CP-2025-002', title: 'Water Pipe Leakage — Bandra West', cat: '💧', catName: 'Water', ward: 'Ward 4', name: 'Priya Nair', date: '10 Mar 2025', status: 'open', priority: '🔴 High', dept: 'Water & Sewage', addr: 'Carter Road, Bandra West', desc: 'Major pipe leakage causing waterlogging on the main road. Residents unable to use the road.', iconBg: 'rgba(79,172,222,0.15)', timeline: ['done','','','',''] },
+  { id: '#CP-2025-003', title: 'Overflowing Garbage Bins — Juhu', cat: '🗑️', catName: 'Waste', ward: 'Ward 8', name: 'Aarav Mehta', date: '09 Mar 2025', status: 'resolved', priority: '🟡 Medium', dept: 'Waste Management', addr: 'Juhu Tara Road, near Market', desc: 'Garbage bins overflowing for 3 days. Causing unhygienic conditions and foul smell in the area.', iconBg: 'rgba(0,200,150,0.15)', timeline: ['done','done','done','done','done'] },
+  { id: '#CP-2025-004', title: 'Street Light Not Working — Kurla', cat: '💡', catName: 'Lighting', ward: 'Ward 9', name: 'Sunita Desai', date: '08 Mar 2025', status: 'progress', priority: '🟡 Medium', dept: 'Street Lighting', addr: 'LBS Marg, Kurla West', desc: 'Three consecutive streetlights on LBS Marg have been non-functional for over a week, causing safety concerns at night.', iconBg: 'rgba(244,196,48,0.15)', timeline: ['done','done','current','',''] },
+  { id: '#CP-2025-005', title: 'Park Damaged — Malad West', cat: '🌳', catName: 'Parks', ward: 'Ward 10', name: 'Vijay Kumar', date: '07 Mar 2025', status: 'review', priority: '🟢 Low', dept: 'Parks & Environment', addr: 'Inorbit Mall Road, Malad West', desc: 'Benches and playground equipment in the community park are damaged. Unsafe for children.', iconBg: 'rgba(34,197,94,0.15)', timeline: ['done','done','done','current',''] },
+  { id: '#CP-2025-006', title: 'Bus Route Cancelled — Borivali', cat: '🚌', catName: 'Transport', ward: 'Ward 3', name: 'Meena Joshi', date: '06 Mar 2025', status: 'open', priority: '🟡 Medium', dept: 'Public Transport', addr: 'Borivali Station West', desc: 'Bus route 408 has been cancelled without notice, causing commuter hardship for hundreds of residents.', iconBg: 'rgba(139,92,246,0.15)', timeline: ['done','','','',''] },
+];
+
+let currentFilter = 'all';
+let searchTerm = '';
+
+function renderComplaints() {
+  const list = document.getElementById('complaintList');
+  let filtered = complaints.filter(c => {
+    if (currentFilter !== 'all' && c.status !== currentFilter) return false;
+    if (searchTerm && !c.title.toLowerCase().includes(searchTerm) && !c.id.toLowerCase().includes(searchTerm) && !c.ward.toLowerCase().includes(searchTerm)) return false;
+    return true;
+  });
+  list.innerHTML = filtered.length ? filtered.map((c,i) => `
+    <div class="complaint-item${i===0?' selected':''}" onclick="showDetail(${complaints.indexOf(c)})">
+      <div class="item-cat-icon" style="background:${c.iconBg}">${c.cat}</div>
+      <div class="item-details">
+        <div class="item-title">${c.title}</div>
+        <div class="item-meta">${c.id} · ${c.ward}</div>
+      </div>
+      <div class="item-right">
+        <div class="status-badge ${getBadgeClass(c.status)}">${getStatusLabel(c.status)}</div>
+        <div class="item-date">${c.date}</div>
+      </div>
+    </div>
+  `).join('') : '<div style="text-align:center;padding:2rem;color:var(--text-muted);font-size:0.875rem;">No complaints found</div>';
+}
+
+function getBadgeClass(s) { return {open:'badge-open',progress:'badge-progress',resolved:'badge-resolved',review:'badge-review'}[s]||'badge-open'; }
+function getStatusLabel(s) { return {open:'Open',progress:'In Progress',resolved:'Resolved',review:'Under Review'}[s]||s; }
+
+function showDetail(idx) {
+  const c = complaints[idx];
+  document.getElementById('detail-title').textContent = c.title;
+  document.getElementById('detail-icon').textContent = c.cat;
+  document.getElementById('detail-id').textContent = c.id;
+  document.getElementById('detail-ward').textContent = c.ward;
+  document.getElementById('detail-cat').textContent = c.catName;
+  document.getElementById('detail-name').textContent = c.name;
+  document.getElementById('detail-date').textContent = c.date;
+  document.getElementById('detail-priority').textContent = c.priority;
+  document.getElementById('detail-dept').textContent = c.dept;
+  document.getElementById('detail-addr').textContent = c.addr;
+  document.getElementById('detail-desc').textContent = c.desc;
+  const tls = ['Complaint Registered','Assigned to Department','Field Inspection Scheduled','Repair Works','Issue Resolved & Closed'];
+  const tld = ['Filed','Assigned','Inspection','In Progress','Completed'];
+  document.getElementById('detail-timeline').innerHTML = tls.map((t,i) => `
+    <div class="timeline-item ${c.timeline[i]}">
+      <div class="timeline-title">${t}</div>
+      <div class="timeline-date">${c.timeline[i]==='done'?c.date.split(' ')[0]+' Mar 2025 · Completed':c.timeline[i]==='current'?'In Progress':'Awaiting'}</div>
+    </div>
+  `).join('');
+  document.querySelectorAll('.complaint-item').forEach(el=>el.classList.remove('selected'));
+  renderComplaints();
+  setTimeout(()=>{
+    const items = document.querySelectorAll('.complaint-item');
+    if(items[idx]||items[0]) (items[idx]||items[0]).classList.add('selected');
+  },10);
+}
+
+function filterTab(el, filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderComplaints();
+}
+
+function filterComplaints(val) {
+  searchTerm = val.toLowerCase();
+  renderComplaints();
+}
+
+renderComplaints();
+
+// ── BAR CHART ──
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const complaints_data = [210,185,320,280,350,290,410,380,320,440,390,450];
+const resolved_data   = [190,170,295,260,320,270,380,350,300,410,360,420];
+const barChart = document.getElementById('barChart');
+const maxVal = Math.max(...complaints_data);
+months.forEach((m,i) => {
+  barChart.innerHTML += `
+    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; position:relative; height:100%;">
+      <div class="bar" style="width:42%; height:${(complaints_data[i]/maxVal)*90}%; background:rgba(26,60,94,0.2); animation-delay:${i*0.05}s"></div>
+      <div class="bar" style="width:42%; height:${(resolved_data[i]/maxVal)*90}%; background:var(--accent); animation-delay:${i*0.05+0.02}s; margin-top:2px"></div>
+      <div style="font-size:0.6rem; color:var(--text-muted); position:absolute; bottom:-18px;">${m}</div>
+    </div>`;
+});
+
+// ── DONUT CHART ──
+const donutData = [
+  { label:'Roads', val:842, color:'#F4A261' },
+  { label:'Waste', val:621, color:'#00C896' },
+  { label:'Water', val:534, color:'#4FACDE' },
+  { label:'Transport', val:312, color:'#8B5CF6' },
+  { label:'Other', val:515, color:'#1A3C5E' },
+];
+const total = donutData.reduce((s,d)=>s+d.val,0);
+let offset = 0;
+const r = 45, cx = 65, cy = 65;
+let svgPaths = '';
+donutData.forEach(d => {
+  const pct = d.val/total;
+  const angle = pct * 360;
+  const rad = (v) => v * Math.PI / 180;
+  const x1 = cx + r*Math.sin(rad(offset));
+  const y1 = cy - r*Math.cos(rad(offset));
+  const x2 = cx + r*Math.sin(rad(offset+angle));
+  const y2 = cy - r*Math.cos(rad(offset+angle));
+  const large = angle > 180 ? 1 : 0;
+  svgPaths += `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z" fill="${d.color}" opacity="0.85" class="donut-seg" style="cursor:pointer;transition:opacity 0.2s" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.85"/>`;
+  offset += angle;
+});
+svgPaths += `<circle cx="${cx}" cy="${cy}" r="28" fill="white"/><text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="11" font-weight="700" fill="#1A3C5E" font-family="Syne">${total}</text><text x="${cx}" y="${cy+10}" text-anchor="middle" font-size="7" fill="#9BB5CC">Total</text>`;
+document.getElementById('donutSVG').innerHTML = svgPaths;
+document.getElementById('donutLegend').innerHTML = donutData.map(d=>`
+  <div class="legend-item">
+    <div class="legend-dot" style="background:${d.color}"></div>
+    <span class="legend-label">${d.label}</span>
+    <span class="legend-val">${d.val}</span>
+  </div>`).join('');
+
+// ── FEEDBACK CARDS ──
+const feedbacks = [
+  { name:'Ananya Singh', initials:'AS', bg:'#8B5CF6', date:'8 Mar 2025', stars:5, text:'The pothole on my street was fixed within 48 hours of reporting! Impressed with the quick response from the Roads department.', tag:'Roads — Resolved' },
+  { name:'Kiran Patel', initials:'KP', bg:'#4FACDE', date:'5 Mar 2025', stars:4, text:'Water supply issue resolved in 3 days. Would appreciate faster turnaround but overall the experience was smooth and updates were timely.', tag:'Water — Resolved' },
+  { name:'Deepak Roy', initials:'DR', bg:'#F4A261', date:'2 Mar 2025', stars:5, text:'Excellent system! I could track my complaint in real-time. The transparency in the process gives me confidence in city administration.', tag:'Waste — Resolved' },
+];
+document.getElementById('feedbackCards').innerHTML = feedbacks.map(f=>`
+  <div class="feedback-card">
+    <div class="feedback-card-header">
+      <div class="feedback-avatar" style="background:${f.bg}">${f.initials}</div>
+      <div><div class="feedback-name">${f.name}</div><div class="feedback-date">${f.date}</div></div>
+    </div>
+    <div class="star-row">${[1,2,3,4,5].map(s=>`<span class="star ${s<=f.stars?'filled':'empty'}">★</span>`).join('')}</div>
+    <p class="feedback-text">${f.text}</p>
+    <span class="feedback-tag">${f.tag}</span>
+  </div>`).join('');
+
+// ── CITY MAP ──
+const mapSVG = document.getElementById('cityMap');
+const mapBg = `<rect width="900" height="380" fill="#EEF3F8" rx="0"/>
+<rect x="50" y="30" width="800" height="320" fill="#E2ECF5" rx="8"/>
+<path d="M50 130 Q200 110 350 130 Q500 150 650 125 Q750 110 850 130" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
+<path d="M50 200 Q200 180 350 200 Q500 220 650 195 Q750 180 850 200" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
+<path d="M200 30 Q190 180 200 350" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
+<path d="M450 30 Q440 180 450 350" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
+<path d="M700 30 Q690 180 700 350" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
+<rect x="120" y="60" width="60" height="40" rx="4" fill="#D4E4F5" opacity="0.8"/>
+<rect x="200" y="45" width="80" height="55" rx="4" fill="#C8D9EC" opacity="0.7"/>
+<rect x="310" y="60" width="50" height="35" rx="4" fill="#D4E4F5" opacity="0.8"/>
+<rect x="520" y="55" width="70" height="45" rx="4" fill="#C8D9EC" opacity="0.7"/>
+<rect x="620" y="65" width="55" height="30" rx="4" fill="#D4E4F5" opacity="0.8"/>
+<rect x="750" y="50" width="65" height="40" rx="4" fill="#C8D9EC" opacity="0.7"/>
+<rect x="130" y="220" width="50" height="40" rx="4" fill="#D4E4F5" opacity="0.7"/>
+<rect x="350" y="230" width="75" height="50" rx="4" fill="#C8D9EC" opacity="0.6"/>
+<rect x="580" y="225" width="60" height="45" rx="4" fill="#D4E4F5" opacity="0.7"/>
+<rect x="760" y="230" width="55" height="35" rx="4" fill="#C8D9EC" opacity="0.6"/>
+<text x="150" y="90" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Borivali</text>
+<text x="240" y="75" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Malad</text>
+<text x="325" y="84" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Andheri</text>
+<text x="535" y="80" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Kurla</text>
+<text x="638" y="86" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Ghatkopar</text>
+<text x="770" y="74" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Vikhroli</text>
+<text x="148" y="248" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Bandra</text>
+<text x="365" y="260" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Chembur</text>
+<text x="596" y="252" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Dharavi</text>
+<text x="770" y="256" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Santacruz</text>`;
+
+const hotspots = [
+  { x:240, y:170, r:28, color:'#E84855', label:'42 Issues', name:'Malad' },
+  { x:340, y:155, r:22, color:'#F4A261', label:'28 Issues', name:'Andheri' },
+  { x:160, y:190, r:18, color:'#00C896', label:'12 Issues', name:'Borivali' },
+  { x:550, y:165, r:25, color:'#F4A261', label:'31 Issues', name:'Kurla' },
+  { x:660, y:175, r:14, color:'#00C896', label:'8 Issues', name:'Ghatkopar' },
+  { x:800, y:160, r:20, color:'#4FACDE', label:'Resolved', name:'Vikhroli' },
+  { x:170, y:270, r:16, color:'#F4A261', label:'19 Issues', name:'Bandra' },
+  { x:400, y:280, r:30, color:'#E84855', label:'47 Issues', name:'Chembur' },
+  { x:610, y:275, r:20, color:'#F4A261', label:'22 Issues', name:'Dharavi' },
+  { x:790, y:270, r:14, color:'#4FACDE', label:'Resolved', name:'Santacruz' },
+];
+
+mapSVG.innerHTML = mapBg + hotspots.map(h=>`
+  <g class="map-hotspot" onclick="showToast('${h.name}: ${h.label}','City Map')">
+    <circle cx="${h.x}" cy="${h.y}" r="${h.r+8}" fill="${h.color}" opacity="0.08"/>
+    <circle cx="${h.x}" cy="${h.y}" r="${h.r}" fill="${h.color}" opacity="0.25"/>
+    <circle cx="${h.x}" cy="${h.y}" r="${h.r*0.55}" fill="${h.color}" opacity="0.8"/>
+    <text x="${h.x}" y="${h.y+3}" text-anchor="middle" font-size="7" fill="white" font-weight="700" font-family="DM Sans">${h.label.split(' ')[0]}</text>
+  </g>`).join('');
+
+// ── PRIORITY SELECTOR ──
+function setPriority(el, level) {
+  document.querySelectorAll('.priority-btn').forEach(b=>{b.classList.remove('active')});
+  el.classList.add('active');
+}
+
+// ── FORM SUBMIT ──
+function submitComplaint() {
+  const name = document.getElementById('f-name').value;
+  const phone = document.getElementById('f-phone').value;
+  const cat = document.getElementById('f-cat').value;
+  const ward = document.getElementById('f-ward').value;
+  const title = document.getElementById('f-title').value;
+  const desc = document.getElementById('f-desc').value;
+  if (!name || !phone || !cat || !ward || !title || !desc) {
+    showToast('Please fill in all required fields', 'Validation Error', 'error');
+    return;
+  }
+  const id = '#CP-2025-' + (Math.floor(Math.random()*9000)+1000);
+  document.getElementById('generatedId').textContent = id;
+  document.getElementById('successModal').classList.add('open');
+}
+
+function clearForm() {
+  ['f-name','f-phone','f-email','f-address','f-title','f-desc'].forEach(id=>{document.getElementById(id).value='';});
+  document.getElementById('f-cat').value='';
+  document.getElementById('f-ward').value='';
+  setPriority(document.querySelector('.priority-btn.low'), 'low');
+  showToast('Form cleared','Form');
+}
+
+function closeModal() { document.getElementById('successModal').classList.remove('open'); }
+
+function copyId() {
+  const id = document.getElementById('generatedId').textContent;
+  navigator.clipboard?.writeText(id).catch(()=>{});
+  showToast('Tracking ID copied to clipboard!','Copied');
+}
+
+// ── RATING ──
+let currentRating = 0;
+function setRating(r) {
+  currentRating = r;
+  document.querySelectorAll('.rating-star-btn').forEach((s,i)=>{
+    s.classList.toggle('active', i < r);
+  });
+}
+
+function submitFeedback() {
+  if (!currentRating) {
+    showToast('Please select a star rating','Feedback'); return;
+  }
+  showToast(`Thank you! Your ${currentRating}-star feedback was submitted.`,'Feedback Submitted');
+  currentRating = 0;
+  document.querySelectorAll('.rating-star-btn').forEach(s=>s.classList.remove('active'));
+}
+
+// ── TOAST ──
+function showToast(msg, title='Notification', type='success') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  if (type === 'error') toast.style.borderLeftColor = '#E84855';
+  toast.innerHTML = `
+    <div class="toast-icon">${type==='error'?'⚠️':'✓'}</div>
+    <div class="toast-text"><h4>${title}</h4><p>${msg}</p></div>
+    <button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
+  container.appendChild(toast);
+  setTimeout(()=>{ toast.style.opacity='0'; toast.style.transform='translateX(20px)'; toast.style.transition='all 0.3s'; setTimeout(()=>toast.remove(),300); }, 3500);
+}
+
+// ── NAV ──
+function setActive(el) {
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── MODAL CLICK OUTSIDE ──
+document.getElementById('successModal').addEventListener('click', function(e){
+  if(e.target===this) closeModal();
+});
+
+// ── SMOOTH SCROLL ──
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click', e=>{
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) { e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+
+// Welcome toast
+setTimeout(()=>showToast('Welcome to CivicPulse Smart City Portal','👋 Welcome'), 800);
+</script>
+</body>
+</html>
