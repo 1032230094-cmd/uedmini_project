@@ -34,23 +34,15 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; }
 
-  body {
-    font-family: var(--font-body);
-    background: var(--bg);
-    color: var(--text-primary);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ── SCROLLBAR ── */
+  /* SCROLLBAR */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 99px; }
 
-  /* ── NAVBAR ── */
+  /* NAVBAR */
   nav {
     position: sticky; top: 0; z-index: 100;
     background: rgba(255,255,255,0.92);
@@ -85,22 +77,27 @@
   .nav-links a:hover, .nav-links a.active {
     color: var(--primary); background: rgba(26,60,94,0.07);
   }
-  .nav-cta {
-    background: var(--primary); color: #fff !important;
-    padding: 8px 18px !important; border-radius: 10px !important;
-  }
-  .nav-cta:hover { background: var(--primary-light) !important; transform: translateY(-1px); }
   .nav-right { display: flex; align-items: center; gap: 12px; }
+  /* FIX: btn-nav-cta is standalone, not nested in nav-links */
+  .btn-nav-cta {
+    background: var(--primary); color: #fff;
+    font-size: 0.82rem; font-weight: 500;
+    padding: 8px 16px; border-radius: 10px;
+    text-decoration: none; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-nav-cta:hover { background: var(--primary-light); transform: translateY(-1px); color: #fff; }
   .nav-avatar {
     width: 36px; height: 36px; background: linear-gradient(135deg, var(--accent), var(--info));
     border-radius: 50%; display: flex; align-items: center; justify-content: center;
     font-weight: 700; font-size: 0.8rem; color: #fff; cursor: pointer;
+    flex-shrink: 0;
   }
   .notif-btn {
     width: 36px; height: 36px; background: var(--bg);
     border: 1px solid var(--border); border-radius: 10px;
     display: flex; align-items: center; justify-content: center; cursor: pointer;
-    position: relative; transition: all 0.2s;
+    position: relative; transition: all 0.2s; flex-shrink: 0;
   }
   .notif-btn:hover { border-color: var(--primary); }
   .notif-dot {
@@ -109,7 +106,7 @@
     border: 1.5px solid #fff;
   }
 
-  /* ── HERO ── */
+  /* HERO */
   .hero {
     background: var(--primary);
     padding: 5rem 2rem 4rem;
@@ -178,18 +175,13 @@
     border: 1.5px solid var(--border-strong);
   }
   .btn-outline:hover { background: var(--primary); color: #fff; transform: translateY(-2px); }
-
-  .hero-stats {
-    display: flex; gap: 2rem; margin-top: 2.5rem;
-  }
-  .hero-stat { }
+  .hero-stats { display: flex; gap: 2rem; margin-top: 2.5rem; }
   .hero-stat-num {
-    font-family: var(--font-display); font-size: 1.8rem; font-weight: 800;
-    color: #fff;
+    font-family: var(--font-display); font-size: 1.8rem; font-weight: 800; color: #fff;
   }
   .hero-stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
 
-  /* Hero visual panel */
+  /* Hero visual */
   .hero-visual {
     background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
     border-radius: 20px; padding: 1.5rem; backdrop-filter: blur(10px);
@@ -226,10 +218,8 @@
   .status-progress { background: rgba(244,162,97,0.2); color: #F4A261; }
   .status-resolved { background: rgba(0,200,150,0.2); color: var(--accent); }
 
-  /* ── SECTION HEADERS ── */
-  .section-header {
-    text-align: center; margin-bottom: 3rem;
-  }
+  /* SECTION HEADERS */
+  .section-header { text-align: center; margin-bottom: 3rem; }
   .section-label {
     display: inline-block; font-size: 0.75rem; font-weight: 700;
     letter-spacing: 0.1em; text-transform: uppercase;
@@ -241,11 +231,11 @@
   }
   .section-sub { color: var(--text-secondary); font-size: 1rem; margin-top: 0.75rem; font-weight: 300; }
 
-  /* ── MAIN CONTENT ── */
+  /* MAIN CONTENT */
   .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
   section { padding: 5rem 0; }
 
-  /* ── CATEGORY CARDS ── */
+  /* CATEGORY CARDS */
   .categories-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
@@ -285,7 +275,7 @@
     margin-top: auto;
   }
 
-  /* ── COMPLAINT FORM ── */
+  /* COMPLAINT FORM */
   .form-section { background: #fff; }
   .form-container {
     display: grid; grid-template-columns: 1fr 1.3fr;
@@ -311,7 +301,6 @@
   }
   .step-text h4 { font-size: 0.875rem; font-weight: 600; color: var(--primary); margin-bottom: 2px; }
   .step-text p { font-size: 0.8rem; color: var(--text-secondary); }
-
   .complaint-form {
     background: var(--bg); border-radius: 20px; padding: 2rem;
     border: 1px solid var(--border);
@@ -336,8 +325,10 @@
   }
   input::placeholder, textarea::placeholder { color: var(--text-muted); }
   textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
-  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A7A99' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px; }
-
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A7A99' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; padding-right: 40px;
+  }
   .priority-group { display: flex; gap: 8px; }
   .priority-btn {
     flex: 1; padding: 9px 12px; border-radius: 8px; cursor: pointer;
@@ -349,7 +340,6 @@
   .priority-btn.medium.active { border-color: var(--warning); background: rgba(244,162,97,0.12); color: #c07030; }
   .priority-btn.high.active { border-color: var(--danger); background: rgba(232,72,85,0.08); color: var(--danger); }
   .priority-btn:hover { transform: translateY(-1px); }
-
   .upload-zone {
     border: 2px dashed var(--border-strong); border-radius: 12px;
     padding: 1.5rem; text-align: center; cursor: pointer;
@@ -359,16 +349,12 @@
   .upload-zone-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
   .upload-zone p { font-size: 0.82rem; color: var(--text-secondary); }
   .upload-zone span { color: var(--accent); font-weight: 600; }
-
   .form-submit-row { display: flex; gap: 10px; margin-top: 0.5rem; justify-content: flex-end; }
 
-  /* ── TRACKING SECTION ── */
+  /* TRACKING */
   .tracking-section { background: var(--bg); }
   .tracker-layout { display: grid; grid-template-columns: 1fr 1.6fr; gap: 2.5rem; }
-
-  .search-box {
-    position: relative; margin-bottom: 1.25rem;
-  }
+  .search-box { position: relative; margin-bottom: 1.25rem; }
   .search-box input {
     width: 100%; padding: 12px 14px 12px 44px;
     border: 1.5px solid var(--border-strong);
@@ -380,7 +366,6 @@
     position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
     color: var(--text-muted); pointer-events: none;
   }
-
   .filter-tabs { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
   .filter-tab {
     padding: 7px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 600;
@@ -390,7 +375,6 @@
   .filter-tab.active, .filter-tab:hover {
     background: var(--primary); color: #fff; border-color: var(--primary);
   }
-
   .complaint-list { display: flex; flex-direction: column; gap: 0.75rem; max-height: 500px; overflow-y: auto; }
   .complaint-item {
     background: #fff; border-radius: 12px; padding: 1rem 1.2rem;
@@ -420,7 +404,7 @@
   .badge-review { background: #EAF4FF; color: #1565C0; }
   .item-date { font-size: 0.7rem; color: var(--text-muted); }
 
-  /* Complaint detail panel */
+  /* Complaint Detail Panel */
   .complaint-detail {
     background: #fff; border-radius: 20px;
     border: 1px solid var(--border); overflow: hidden;
@@ -434,6 +418,7 @@
     width: 48px; height: 48px; border-radius: 12px;
     background: rgba(255,255,255,0.15);
     display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+    flex-shrink: 0;
   }
   .detail-header-info h3 {
     font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
@@ -448,7 +433,6 @@
   .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
   .detail-field label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 4px; font-weight: 600; }
   .detail-field p { font-size: 0.875rem; color: var(--text-primary); font-weight: 500; }
-
   .timeline { position: relative; padding-left: 20px; }
   .timeline::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 2px; background: var(--border); }
   .timeline-item { position: relative; margin-bottom: 1.2rem; }
@@ -462,7 +446,7 @@
   .timeline-title { font-size: 0.82rem; font-weight: 600; color: var(--primary); }
   .timeline-date { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
 
-  /* ── DASHBOARD ── */
+  /* DASHBOARD */
   .dashboard-section { background: #fff; }
   .stats-grid {
     display: grid; grid-template-columns: repeat(4, 1fr);
@@ -485,7 +469,6 @@
   .stat-icon { position: absolute; top: 1.2rem; right: 1.2rem; font-size: 1.4rem; opacity: 0.6; }
   .trend-up { color: var(--accent); }
   .trend-down { color: var(--danger); }
-
   .charts-row { display: grid; grid-template-columns: 1.5fr 1fr; gap: 1.5rem; }
   .chart-card {
     background: var(--bg); border-radius: var(--radius); padding: 1.5rem;
@@ -493,19 +476,50 @@
   }
   .chart-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
   .chart-card-header h4 { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--primary); }
-  .chart-placeholder { height: 200px; display: flex; align-items: flex-end; gap: 8px; padding: 0 4px; }
+
+  /* FIX: Proper bar chart — grouped bars side by side */
+  .chart-placeholder {
+    height: 200px;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    padding-bottom: 24px;
+    position: relative;
+  }
+  .bar-group {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    position: relative;
+    height: 100%;
+  }
   .bar {
-    flex: 1; border-radius: 6px 6px 0 0; position: relative;
-    cursor: pointer; transition: all 0.3s; transform-origin: bottom;
+    flex: 1;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    cursor: pointer;
+    transition: filter 0.2s;
     animation: growUp 0.6s ease both;
+    transform-origin: bottom;
   }
   @keyframes growUp {
     from { transform: scaleY(0); }
     to { transform: scaleY(1); }
   }
-  .bar:hover { filter: brightness(1.1); transform: scaleY(1.02); }
-  .bar-label { position: absolute; bottom: -22px; left: 0; right: 0; text-align: center; font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
+  .bar:hover { filter: brightness(1.15); }
+  .bar-month-label {
+    position: absolute;
+    bottom: -20px;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    white-space: nowrap;
+  }
 
+  /* Donut chart */
   .donut-chart {
     display: flex; flex-direction: column; align-items: center;
     justify-content: center; height: 200px; gap: 1rem;
@@ -517,7 +531,7 @@
   .legend-label { color: var(--text-secondary); flex: 1; }
   .legend-val { font-weight: 600; color: var(--primary); }
 
-  /* ── FEEDBACK / RATINGS ── */
+  /* FEEDBACK */
   .feedback-section { background: var(--bg); }
   .feedback-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 2.5rem; }
   .feedback-card {
@@ -529,6 +543,7 @@
     width: 40px; height: 40px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     font-weight: 700; font-size: 0.85rem; color: #fff;
+    flex-shrink: 0;
   }
   .feedback-name { font-size: 0.9rem; font-weight: 600; color: var(--primary); }
   .feedback-date { font-size: 0.72rem; color: var(--text-muted); }
@@ -542,8 +557,6 @@
     padding: 3px 10px; border-radius: 99px;
     background: rgba(0,200,150,0.1); color: var(--accent-dark);
   }
-
-  /* Rating widget */
   .rating-widget {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
     border-radius: 20px; padding: 2.5rem; display: grid;
@@ -557,20 +570,27 @@
     background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.15);
     cursor: pointer; font-size: 1.5rem; display: flex; align-items: center;
     justify-content: center; transition: all 0.2s; color: rgba(255,255,255,0.5);
+    user-select: none;
   }
   .rating-star-btn:hover, .rating-star-btn.active {
     background: rgba(244,196,48,0.2); border-color: #F4C430;
     color: #F4C430; transform: scale(1.1);
   }
   .rating-form { display: flex; flex-direction: column; gap: 10px; }
+  .rating-form input[type="text"] {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    color: #fff; border-radius: 12px;
+  }
+  .rating-form input[type="text"]::placeholder { color: rgba(255,255,255,0.35); }
+  .rating-form input[type="text"]:focus { border-color: var(--accent); background: rgba(255,255,255,0.12); box-shadow: none; }
   .rating-form textarea {
     background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
     color: #fff; border-radius: 12px; resize: none; min-height: 80px;
   }
   .rating-form textarea::placeholder { color: rgba(255,255,255,0.35); }
-  .rating-form textarea:focus { border-color: var(--accent); background: rgba(255,255,255,0.12); }
+  .rating-form textarea:focus { border-color: var(--accent); background: rgba(255,255,255,0.12); box-shadow: none; }
 
-  /* ── MAP SECTION ── */
+  /* MAP */
   .map-section { background: #fff; }
   .map-container {
     background: var(--bg); border-radius: 20px; overflow: hidden;
@@ -593,14 +613,11 @@
     box-shadow: var(--shadow-md);
   }
   .map-counter span { display: block; font-size: 0.65rem; font-weight: 400; opacity: 0.7; }
+  /* FIX: Map hotspot hover via JS filter instead of CSS r property */
+  .map-hotspot { cursor: pointer; transition: filter 0.2s; }
+  .map-hotspot:hover { filter: brightness(1.15); }
 
-  .map-hotspot {
-    cursor: pointer; transition: all 0.2s;
-  }
-  .map-hotspot circle { transition: r 0.2s; }
-  .map-hotspot:hover circle { r: 20; }
-
-  /* ── NOTIFICATION TOAST ── */
+  /* TOAST */
   .toast-container {
     position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
     display: flex; flex-direction: column; gap: 0.75rem;
@@ -609,21 +626,22 @@
     background: var(--primary); color: #fff;
     border-radius: 12px; padding: 1rem 1.25rem;
     display: flex; align-items: center; gap: 12px;
-    box-shadow: var(--shadow-lg); min-width: 280px;
+    box-shadow: var(--shadow-lg); min-width: 280px; max-width: 340px;
     animation: toastIn 0.4s ease;
     border-left: 4px solid var(--accent);
   }
   @keyframes toastIn {
-    from { transform: translateX(100px); opacity: 0; }
+    from { transform: translateX(120px); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
   }
-  .toast-icon { font-size: 1.2rem; }
+  .toast.error { border-left-color: var(--danger); }
+  .toast-icon { font-size: 1.2rem; flex-shrink: 0; }
   .toast-text h4 { font-size: 0.875rem; font-weight: 600; }
-  .toast-text p { font-size: 0.78rem; opacity: 0.7; }
-  .toast-close { margin-left: auto; cursor: pointer; opacity: 0.6; background: none; border: none; color: #fff; font-size: 1rem; }
+  .toast-text p { font-size: 0.78rem; opacity: 0.7; margin-top: 1px; }
+  .toast-close { margin-left: auto; cursor: pointer; opacity: 0.6; background: none; border: none; color: #fff; font-size: 1rem; flex-shrink: 0; }
   .toast-close:hover { opacity: 1; }
 
-  /* ── MODAL ── */
+  /* MODAL */
   .modal-overlay {
     display: none; position: fixed; inset: 0; z-index: 1000;
     background: rgba(13,31,51,0.7); backdrop-filter: blur(6px);
@@ -665,7 +683,7 @@
   }
   .tracking-id .id-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
 
-  /* ── FOOTER ── */
+  /* FOOTER */
   footer {
     background: var(--bg-dark); color: rgba(255,255,255,0.6);
     padding: 3rem 2rem 2rem;
@@ -696,10 +714,7 @@
   }
   .footer-bottom span { color: var(--accent); }
 
-  /* ── ACTIVE NAV HIGHLIGHT ── */
-  .active-section-nav { color: var(--primary) !important; background: rgba(26,60,94,0.07) !important; }
-
-  /* ── RESPONSIVE ── */
+  /* RESPONSIVE */
   @media (max-width: 900px) {
     .hero-grid, .form-container, .tracker-layout, .charts-row, .footer-grid { grid-template-columns: 1fr; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -707,14 +722,20 @@
     .rating-widget { grid-template-columns: 1fr; }
     .nav-links { display: none; }
     .hero-visual { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .detail-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .hero-stats { gap: 1.2rem; }
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- NAVBAR -->
 <nav>
-  <a href="#" class="nav-brand">
+  <a href="#home" class="nav-brand">
     <div class="logo-icon">
       <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M10 2L3 6v8l7 4 7-4V6L10 2z" stroke="#00C896" stroke-width="1.5" fill="none"/>
@@ -723,6 +744,7 @@
     </div>
     Civic<span class="brand-dot">Pulse</span>
   </a>
+  <!-- FIX: nav-links is a <ul> for list items; CTA button is separate, not nested -->
   <ul class="nav-links">
     <li><a href="#home" class="active" onclick="setActive(this)">Home</a></li>
     <li><a href="#report" onclick="setActive(this)">Report Issue</a></li>
@@ -733,11 +755,15 @@
   </ul>
   <div class="nav-right">
     <div class="notif-btn" onclick="showToast('You have 3 new updates on your complaints','Notifications')">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4.5 4.5 0 00-4.5 4.5v2L2 10h12l-1.5-1.5v-2A4.5 4.5 0 008 2z" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M8 2a4.5 4.5 0 00-4.5 4.5v2L2 10h12l-1.5-1.5v-2A4.5 4.5 0 008 2z" stroke="currentColor" stroke-width="1.2"/>
+        <path d="M6.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
       <div class="notif-dot"></div>
     </div>
     <div class="nav-avatar" onclick="showToast('Profile settings coming soon','User Profile')">RM</div>
-    <a href="#report" class="nav-links"><a href="#report" class="btn nav-cta" style="font-size:0.82rem; padding:8px 16px; margin:0;">+ Report</a></a>
+    <!-- FIX: standalone anchor, not nested in nav-links ul -->
+    <a href="#report" class="btn-nav-cta">+ Report</a>
   </div>
 </nav>
 
@@ -756,7 +782,7 @@
         <a href="#track" class="btn btn-ghost">Track My Complaint →</a>
       </div>
       <div class="hero-stats">
-        <div class="hero-stat"><div class="hero-stat-num">2,847</div><div class="hero-stat-label">Issues Resolved</div></div>
+        <div class="hero-stat"><div class="hero-stat-num" id="hero-stat-resolved">2,847</div><div class="hero-stat-label">Issues Resolved</div></div>
         <div class="hero-stat"><div class="hero-stat-num">94%</div><div class="hero-stat-label">Satisfaction Rate</div></div>
         <div class="hero-stat"><div class="hero-stat-num">48h</div><div class="hero-stat-label">Avg Response Time</div></div>
       </div>
@@ -767,7 +793,7 @@
         <div class="mini-icon road">🚧</div>
         <div class="mini-card-content">
           <h4>Pothole on MG Road</h4>
-          <p>Ward 12 · Roads & Infrastructure</p>
+          <p>Ward 12 · Roads &amp; Infrastructure</p>
         </div>
         <div class="mini-status status-progress">In Progress</div>
       </div>
@@ -775,7 +801,7 @@
         <div class="mini-icon water">💧</div>
         <div class="mini-card-content">
           <h4>Water Supply Disruption</h4>
-          <p>Ward 7 · Water & Sewage</p>
+          <p>Ward 7 · Water &amp; Sewage</p>
         </div>
         <div class="mini-status status-open">Open</div>
       </div>
@@ -803,8 +829,7 @@
       <h2 class="section-title">What Issue Do You Want to Report?</h2>
       <p class="section-sub">Select a category to quickly route your complaint to the right department</p>
     </div>
-    <div class="categories-grid" id="catGrid">
-    </div>
+    <div class="categories-grid" id="catGrid"></div>
   </div>
 </section>
 
@@ -824,7 +849,7 @@
           <div class="form-step"><div class="step-num">1</div><div class="step-text"><h4>Submit Details</h4><p>Describe the issue with location and photos</p></div></div>
           <div class="form-step"><div class="step-num">2</div><div class="step-text"><h4>Get Tracking ID</h4><p>Receive a unique ID to monitor progress</p></div></div>
           <div class="form-step"><div class="step-num">3</div><div class="step-text"><h4>Department Review</h4><p>Issue assigned to concerned department</p></div></div>
-          <div class="form-step"><div class="step-num">4</div><div class="step-text"><h4>Resolution & Feedback</h4><p>Rate the resolution quality</p></div></div>
+          <div class="form-step"><div class="step-num">4</div><div class="step-text"><h4>Resolution &amp; Feedback</h4><p>Rate the resolution quality</p></div></div>
         </div>
       </div>
       <div class="complaint-form">
@@ -847,14 +872,14 @@
             <label>Category <span class="req">*</span></label>
             <select id="f-cat">
               <option value="">Select category</option>
-              <option>🚧 Roads & Infrastructure</option>
-              <option>💧 Water & Sewage</option>
-              <option>🗑️ Waste Management</option>
-              <option>💡 Street Lighting</option>
-              <option>🌳 Parks & Environment</option>
-              <option>🚌 Public Transport</option>
-              <option>🏥 Health Services</option>
-              <option>📶 Public Wi-Fi</option>
+              <option value="Roads &amp; Infrastructure">🚧 Roads &amp; Infrastructure</option>
+              <option value="Water &amp; Sewage">💧 Water &amp; Sewage</option>
+              <option value="Waste Management">🗑️ Waste Management</option>
+              <option value="Street Lighting">💡 Street Lighting</option>
+              <option value="Parks &amp; Environment">🌳 Parks &amp; Environment</option>
+              <option value="Public Transport">🚌 Public Transport</option>
+              <option value="Health Services">🏥 Health Services</option>
+              <option value="Public Wi-Fi">📶 Public Wi-Fi</option>
             </select>
           </div>
           <div class="form-group">
@@ -898,10 +923,10 @@
         </div>
         <div class="form-group">
           <label>Attach Photos / Videos</label>
-          <div class="upload-zone" onclick="showToast('File upload simulation — attach photos or videos','Attachment')">
+          <div class="upload-zone" onclick="showToast('File upload — attach photos or videos of the issue','Attachment')">
             <div class="upload-zone-icon">📎</div>
             <p><span>Click to upload</span> or drag and drop</p>
-            <p style="font-size:0.72rem; margin-top:4px;">PNG, JPG, MP4 up to 10MB</p>
+            <p style="font-size:0.72rem; margin-top:4px; color:var(--text-muted);">PNG, JPG, MP4 up to 10MB</p>
           </div>
         </div>
         <div class="form-submit-row">
@@ -937,16 +962,18 @@
           <button class="filter-tab" onclick="filterTab(this,'open')">Open</button>
           <button class="filter-tab" onclick="filterTab(this,'progress')">In Progress</button>
           <button class="filter-tab" onclick="filterTab(this,'resolved')">Resolved</button>
+          <button class="filter-tab" onclick="filterTab(this,'review')">Under Review</button>
         </div>
         <div class="complaint-list" id="complaintList"></div>
       </div>
+      <!-- Detail panel -->
       <div class="complaint-detail" id="detailPanel">
         <div class="detail-header">
           <div class="detail-cat-icon" id="detail-icon">🚧</div>
           <div class="detail-header-info">
             <h3 id="detail-title">Pothole on MG Road near Bus Stop</h3>
             <div class="detail-header-meta">
-              <span class="detail-tag" id="detail-id">#CP-2024-001</span>
+              <span class="detail-tag" id="detail-id">#CP-2025-0001</span>
               <span class="detail-tag" id="detail-ward">Ward 12</span>
               <span class="detail-tag" id="detail-cat">Roads</span>
             </div>
@@ -957,21 +984,16 @@
             <div class="detail-field"><label>Reported By</label><p id="detail-name">Rahul Sharma</p></div>
             <div class="detail-field"><label>Date Filed</label><p id="detail-date">12 Mar 2025</p></div>
             <div class="detail-field"><label>Priority</label><p id="detail-priority">🔴 High</p></div>
-            <div class="detail-field"><label>Department</label><p id="detail-dept">Roads & Infrastructure</p></div>
+            <div class="detail-field"><label>Department</label><p id="detail-dept">Roads &amp; Infrastructure</p></div>
             <div class="detail-field" style="grid-column:1/-1"><label>Address</label><p id="detail-addr">Near Kohinoor Hotel, MG Road, Andheri East</p></div>
           </div>
           <div style="margin-bottom:1.25rem;">
-            <label style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); margin-bottom:0.5rem; font-weight:600; display:block;">Description</label>
-            <p id="detail-desc" style="font-size:0.875rem; color:var(--text-secondary); line-height:1.7; font-weight:300;">A large pothole has formed near the main bus stop causing danger to vehicles and pedestrians. Multiple accidents have been reported in the past week. Immediate attention required.</p>
+            <label style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.5rem;font-weight:600;display:block;">Description</label>
+            <p id="detail-desc" style="font-size:0.875rem;color:var(--text-secondary);line-height:1.7;font-weight:300;">A large pothole has formed near the main bus stop causing danger to vehicles and pedestrians.</p>
           </div>
-          <label style="font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); margin-bottom:0.75rem; font-weight:600; display:block;">Progress Timeline</label>
-          <div class="timeline" id="detail-timeline">
-            <div class="timeline-item done"><div class="timeline-title">Complaint Registered</div><div class="timeline-date">12 Mar 2025 · 10:23 AM</div></div>
-            <div class="timeline-item done"><div class="timeline-title">Assigned to Department</div><div class="timeline-date">12 Mar 2025 · 2:15 PM</div></div>
-            <div class="timeline-item current"><div class="timeline-title">Field Inspection Scheduled</div><div class="timeline-date">14 Mar 2025 · Pending</div></div>
-            <div class="timeline-item"><div class="timeline-title">Repair Works</div><div class="timeline-date">Awaiting</div></div>
-            <div class="timeline-item"><div class="timeline-title">Issue Resolved & Closed</div><div class="timeline-date">Awaiting</div></div>
-          </div>
+          <label style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.75rem;font-weight:600;display:block;">Progress Timeline</label>
+          <div class="timeline" id="detail-timeline"></div>
+          <div id="detail-comments"></div>
         </div>
       </div>
     </div>
@@ -990,35 +1012,43 @@
       <div class="stat-card" style="--stat-color:#1A3C5E">
         <div class="stat-icon">📋</div>
         <div class="stat-label">Total Complaints</div>
-        <div class="stat-value">3,492</div>
+        <div class="stat-value" id="stat-total">—</div>
         <div class="stat-trend trend-up">↑ 12% this month</div>
       </div>
       <div class="stat-card" style="--stat-color:#00C896">
         <div class="stat-icon">✅</div>
         <div class="stat-label">Resolved</div>
-        <div class="stat-value">2,847</div>
+        <div class="stat-value" id="stat-resolved">—</div>
         <div class="stat-trend trend-up">↑ 18% this month</div>
       </div>
       <div class="stat-card" style="--stat-color:#F4A261">
         <div class="stat-icon">⏳</div>
         <div class="stat-label">In Progress</div>
-        <div class="stat-value">412</div>
+        <div class="stat-value" id="stat-inprogress">—</div>
         <div class="stat-trend" style="color:var(--warning);">● Active</div>
       </div>
       <div class="stat-card" style="--stat-color:#E84855">
         <div class="stat-icon">⚡</div>
-        <div class="stat-label">Avg. Resolution</div>
-        <div class="stat-value">2.3d</div>
-        <div class="stat-trend trend-up">↓ 0.5d faster</div>
+        <div class="stat-label">Resolution Rate</div>
+        <div class="stat-value" id="stat-rate">—</div>
+        <div class="stat-trend trend-up">↑ Live</div>
       </div>
     </div>
     <div class="charts-row">
       <div class="chart-card">
         <div class="chart-card-header">
-          <h4>Monthly Complaints & Resolutions</h4>
-          <select style="font-size:0.78rem; padding:5px 10px; border-radius:8px; border:1px solid var(--border); width:auto;"><option>2025</option><option>2024</option></select>
+          <h4>Monthly Complaints &amp; Resolutions</h4>
+          <select style="font-size:0.78rem;padding:5px 10px;border-radius:8px;border:1px solid var(--border);width:auto;background:#fff;"><option>2025</option><option>2024</option></select>
         </div>
         <div class="chart-placeholder" id="barChart"></div>
+        <div style="display:flex;gap:16px;margin-top:28px;">
+          <div style="display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--text-secondary);">
+            <div style="width:12px;height:12px;border-radius:3px;background:rgba(26,60,94,0.25)"></div>Submitted
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--text-secondary);">
+            <div style="width:12px;height:12px;border-radius:3px;background:var(--accent)"></div>Resolved
+          </div>
+        </div>
       </div>
       <div class="chart-card">
         <div class="chart-card-header"><h4>By Category</h4></div>
@@ -1053,8 +1083,8 @@
         </div>
       </div>
       <div class="rating-form">
-        <input type="text" placeholder="Tracking ID (optional)" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; border-radius:12px; padding:11px 14px; font-family:var(--font-body); font-size:0.9rem; outline:none; width:100%;">
-        <textarea placeholder="Share your experience with the resolution process..."></textarea>
+        <input type="text" id="rating-tid" placeholder="Tracking ID (optional, e.g. CP-2025-0001)">
+        <textarea id="rating-text" placeholder="Share your experience with the resolution process..."></textarea>
         <button class="btn btn-accent" onclick="submitFeedback()">Submit Feedback</button>
       </div>
     </div>
@@ -1070,13 +1100,13 @@
       <p class="section-sub">Interactive visualization of reported issues across the city</p>
     </div>
     <div class="map-container">
-      <div class="map-counter">
+      <div class="map-counter" id="mapCounter">
         247 <span>Active Issues</span>
       </div>
       <svg class="map-svg" viewBox="0 0 900 380" id="cityMap" xmlns="http://www.w3.org/2000/svg"></svg>
       <div class="map-legend">
         <div class="map-legend-item"><div class="map-dot" style="background:#E84855"></div>High Density</div>
-        <div class="map-legend-item"><div class="map-dot" style="background:#F4A261"></div>Medium Density</div>
+        <div class="map-legend-item"><div class="map-dot" style="background:#F4A261"></div>Medium</div>
         <div class="map-legend-item"><div class="map-dot" style="background:#00C896"></div>Low Density</div>
         <div class="map-legend-item"><div class="map-dot" style="background:#4FACDE"></div>Resolved Zone</div>
       </div>
@@ -1109,14 +1139,14 @@
     <div class="footer-col">
       <h5>Departments</h5>
       <ul class="footer-links">
-        <li><a href="#">Roads & Infrastructure</a></li>
-        <li><a href="#">Water & Sewage</a></li>
+        <li><a href="#">Roads &amp; Infrastructure</a></li>
+        <li><a href="#">Water &amp; Sewage</a></li>
         <li><a href="#">Waste Management</a></li>
         <li><a href="#">Street Lighting</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h5>Help & Support</h5>
+      <h5>Help &amp; Support</h5>
       <ul class="footer-links">
         <li><a href="#">FAQ</a></li>
         <li><a href="#">Help Center</a></li>
@@ -1131,7 +1161,7 @@
   </div>
 </footer>
 
-<!-- MODAL -->
+<!-- SUCCESS MODAL -->
 <div class="modal-overlay" id="successModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
@@ -1139,13 +1169,53 @@
     <h2 style="text-align:center;">Complaint Submitted!</h2>
     <p class="sub" style="text-align:center;">Your complaint has been registered and assigned to the relevant department. Track your status using the ID below.</p>
     <div class="tracking-id">
-      <div class="id-num" id="generatedId">#CP-2025-4821</div>
+      <div class="id-num" id="generatedId">#CP-2025-0001</div>
       <div class="id-label">Save this tracking ID</div>
     </div>
-    <p style="font-size:0.82rem; color:var(--text-secondary); text-align:center; margin-bottom:1.5rem; line-height:1.6;">Expected response time: <strong style="color:var(--primary)">24–48 hours</strong>. You'll receive updates via SMS and email.</p>
-    <div style="display:flex; gap:10px;">
+    <p style="font-size:0.82rem;color:var(--text-secondary);text-align:center;margin-bottom:1.5rem;line-height:1.6;">
+      Expected response time: <strong style="color:var(--primary)">24–48 hours</strong>. You'll receive updates via SMS and email.
+    </p>
+    <div style="display:flex;gap:10px;">
       <button class="btn btn-outline" style="flex:1;" onclick="copyId()">📋 Copy ID</button>
       <button class="btn btn-primary" style="flex:1;" onclick="closeModal();document.querySelector('#track').scrollIntoView({behavior:'smooth'})">Track Status →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN UPDATE MODAL -->
+<div class="modal-overlay" id="adminModal">
+  <div class="modal" style="max-width:460px">
+    <button class="modal-close" onclick="closeAdminModal()">✕</button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem">
+      <div style="width:40px;height:40px;background:rgba(26,60,94,0.08);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem">⚙️</div>
+      <div>
+        <h2 style="font-size:1.2rem;margin-bottom:2px;">Admin Panel</h2>
+        <p class="sub" style="margin:0;font-size:0.8rem;">Update complaint status &amp; add activity note</p>
+      </div>
+    </div>
+    <input type="hidden" id="adminComplaintId">
+    <div class="form-group">
+      <label>Officer / Department Name</label>
+      <input type="text" id="adminOfficerName" placeholder="e.g. Inspector Sharma — Roads Dept">
+    </div>
+    <div class="form-group">
+      <label>Update Status <span class="req">*</span></label>
+      <select id="adminStatusSelect">
+        <option value="open">Open</option>
+        <option value="progress">In Progress</option>
+        <option value="review">Under Review</option>
+        <option value="resolved">Resolved ✅</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Activity Note <span class="req">*</span></label>
+      <textarea id="adminCommentText" placeholder="Describe what action was taken, findings, or next steps..." style="min-height:80px"></textarea>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:0.5rem;">
+      <button class="btn btn-outline" style="flex:1" onclick="closeAdminModal()">Cancel</button>
+      <button class="btn btn-primary" style="flex:1" onclick="saveAdminUpdate()">
+        💾 Save Update
+      </button>
     </div>
   </div>
 </div>
@@ -1154,330 +1224,789 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-// ── CATEGORIES DATA ──
-const categories = [
-  { name: 'Roads & Infrastructure', icon: '🚧', color: '#F4A261', bg: 'rgba(244,162,97,0.1)', count: 842, badge: 'Most Reported' },
-  { name: 'Water & Sewage', icon: '💧', color: '#4FACDE', bg: 'rgba(79,172,222,0.1)', count: 534, badge: '' },
-  { name: 'Waste Management', icon: '🗑️', color: '#00C896', bg: 'rgba(0,200,150,0.1)', count: 621, badge: '' },
-  { name: 'Street Lighting', icon: '💡', color: '#F4C430', bg: 'rgba(244,196,48,0.1)', count: 289, badge: '' },
-  { name: 'Parks & Environment', icon: '🌳', color: '#22C55E', bg: 'rgba(34,197,94,0.1)', count: 174, badge: '' },
-  { name: 'Public Transport', icon: '🚌', color: '#8B5CF6', bg: 'rgba(139,92,246,0.1)', count: 312, badge: '' },
-  { name: 'Health Services', icon: '🏥', color: '#E84855', bg: 'rgba(232,72,85,0.1)', count: 198, badge: 'Urgent' },
-  { name: 'Public Wi-Fi', icon: '📶', color: '#1A3C5E', bg: 'rgba(26,60,94,0.1)', count: 145, badge: '' },
+// ════════════════════════════════════════════════════════
+//  CivicPulse — In-Memory Database & Application Logic
+//  All data resets on page refresh (no persistence needed)
+// ════════════════════════════════════════════════════════
+
+// ── IN-MEMORY DATABASE ──────────────────────────────────
+const DB = {
+  complaints: [
+    {
+      id:'CP-2025-0001', title:'Pothole on MG Road near Bus Stop',
+      cat:'🚧', catKey:'Roads & Infrastructure',
+      ward:'Ward 12 — Vikhroli', name:'Rahul Sharma',
+      phone:'9876543210', email:'rahul@email.com', date:'2025-03-12',
+      status:'progress', priority:'high', dept:'Roads & Infrastructure',
+      addr:'Near HDFC Bank, MG Road, Andheri East',
+      desc:'A large pothole has formed near the main bus stop causing danger to vehicles and pedestrians. Multiple accidents have been reported in the past week. Immediate attention required.',
+      iconBg:'rgba(244,162,97,0.15)', upvotes:24, comments:[]
+    },
+    {
+      id:'CP-2025-0002', title:'Water Pipe Leakage — Bandra West',
+      cat:'💧', catKey:'Water & Sewage',
+      ward:'Ward 4 — Bandra', name:'Priya Nair',
+      phone:'9123456780', email:'priya@email.com', date:'2025-03-10',
+      status:'open', priority:'high', dept:'Water & Sewage',
+      addr:'Carter Road, Bandra West',
+      desc:'Major pipe leakage causing waterlogging on the main road. Residents unable to use the road safely. Water is being wasted continuously.',
+      iconBg:'rgba(79,172,222,0.15)', upvotes:18, comments:[]
+    },
+    {
+      id:'CP-2025-0003', title:'Overflowing Garbage Bins — Juhu',
+      cat:'🗑️', catKey:'Waste Management',
+      ward:'Ward 8 — Juhu', name:'Aarav Mehta',
+      phone:'9001234567', email:'aarav@email.com', date:'2025-03-09',
+      status:'resolved', priority:'medium', dept:'Waste Management',
+      addr:'Juhu Tara Road, near Market',
+      desc:'Garbage bins overflowing for 3 days. Causing unhygienic conditions and foul smell in the entire area. Children play nearby.',
+      iconBg:'rgba(0,200,150,0.15)', upvotes:31,
+      comments:[{author:'Admin', text:'Bins cleared and sanitized. Additional bin deployed.', date:'2025-03-11'}]
+    },
+    {
+      id:'CP-2025-0004', title:'Street Light Not Working — Kurla',
+      cat:'💡', catKey:'Street Lighting',
+      ward:'Ward 9 — Kurla', name:'Sunita Desai',
+      phone:'9765432100', email:'sunita@email.com', date:'2025-03-08',
+      status:'progress', priority:'medium', dept:'Street Lighting',
+      addr:'LBS Marg, Kurla West',
+      desc:'Three consecutive streetlights on LBS Marg have been non-functional for over a week, causing safety concerns at night.',
+      iconBg:'rgba(244,196,48,0.15)', upvotes:12, comments:[]
+    },
+    {
+      id:'CP-2025-0005', title:'Park Damaged — Malad West',
+      cat:'🌳', catKey:'Parks & Environment',
+      ward:'Ward 10 — Malad', name:'Vijay Kumar',
+      phone:'9812345670', email:'vijay@email.com', date:'2025-03-07',
+      status:'review', priority:'low', dept:'Parks & Environment',
+      addr:'Inorbit Mall Road, Malad West',
+      desc:'Benches and playground equipment in the community park are damaged. Unsafe for children.',
+      iconBg:'rgba(34,197,94,0.15)', upvotes:9,
+      comments:[{author:'Inspector', text:'Site visit completed. Report submitted to parks dept.', date:'2025-03-09'}]
+    },
+    {
+      id:'CP-2025-0006', title:'Bus Route Cancelled — Borivali',
+      cat:'🚌', catKey:'Public Transport',
+      ward:'Ward 3 — Borivali', name:'Meena Joshi',
+      phone:'9988776655', email:'meena@email.com', date:'2025-03-06',
+      status:'open', priority:'medium', dept:'Public Transport',
+      addr:'Borivali Station West',
+      desc:'Bus route 408 has been cancelled without notice, causing commuter hardship for hundreds of residents.',
+      iconBg:'rgba(139,92,246,0.15)', upvotes:45, comments:[]
+    },
+  ],
+
+  feedbacks: [
+    { name:'Ananya Singh', initials:'AS', bg:'#8B5CF6', date:'8 Mar 2025', stars:5, text:'The pothole on my street was fixed within 48 hours of reporting! Impressed with the quick response from the Roads department.', tag:'Roads — Resolved' },
+    { name:'Kiran Patel', initials:'KP', bg:'#4FACDE', date:'5 Mar 2025', stars:4, text:'Water supply issue resolved in 3 days. Would appreciate faster turnaround but overall the experience was smooth and updates were timely.', tag:'Water — Resolved' },
+    { name:'Deepak Roy', initials:'DR', bg:'#F4A261', date:'2 Mar 2025', stars:5, text:'Excellent system! I could track my complaint in real-time. The transparency in the process gives me confidence in city administration.', tag:'Waste — Resolved' },
+  ],
+
+  // Computed stats
+  getStats() {
+    const all = this.complaints;
+    const resolved = all.filter(c => c.status === 'resolved').length;
+    const inProgress = all.filter(c => c.status === 'progress' || c.status === 'review').length;
+    return {
+      total: all.length,
+      resolved,
+      open: all.filter(c => c.status === 'open').length,
+      inProgress,
+      rate: all.length ? Math.round((resolved / all.length) * 100) : 0,
+    };
+  },
+
+  // Add new complaint, returns the object
+  addComplaint(data) {
+    const num = String(this.complaints.length + 1).padStart(4, '0');
+    const id = `CP-2025-${num}`;
+    const dateStr = new Date().toISOString().split('T')[0];
+    const obj = {
+      id, ...data,
+      date: dateStr,
+      status: 'open',
+      upvotes: 0,
+      comments: [],
+      iconBg: this._iconBg(data.catKey),
+    };
+    this.complaints.unshift(obj);
+    return obj;
+  },
+
+  updateStatus(id, newStatus) {
+    const c = this.complaints.find(x => x.id === id);
+    if (c) { c.status = newStatus; return true; }
+    return false;
+  },
+
+  addComment(id, author, text) {
+    const c = this.complaints.find(x => x.id === id);
+    if (!c) return false;
+    c.comments.push({ author, text, date: new Date().toISOString().split('T')[0] });
+    return true;
+  },
+
+  upvote(id) {
+    const c = this.complaints.find(x => x.id === id);
+    if (c) { c.upvotes++; return c.upvotes; }
+    return 0;
+  },
+
+  addFeedback(fb) { this.feedbacks.unshift(fb); },
+
+  // FIX: unified filter — search and status filter applied together
+  getFiltered(statusFilter, searchTerm) {
+    let data = this.complaints;
+    if (statusFilter && statusFilter !== 'all') {
+      data = data.filter(c => c.status === statusFilter);
+    }
+    if (searchTerm) {
+      const q = searchTerm.toLowerCase();
+      data = data.filter(c =>
+        c.id.toLowerCase().includes(q) ||
+        c.title.toLowerCase().includes(q) ||
+        c.ward.toLowerCase().includes(q) ||
+        c.name.toLowerCase().includes(q) ||
+        c.catKey.toLowerCase().includes(q) ||
+        c.addr.toLowerCase().includes(q)
+      );
+    }
+    return data;
+  },
+
+  _iconBg(catKey) {
+    const map = {
+      'Roads & Infrastructure': 'rgba(244,162,97,0.15)',
+      'Water & Sewage': 'rgba(79,172,222,0.15)',
+      'Waste Management': 'rgba(0,200,150,0.15)',
+      'Street Lighting': 'rgba(244,196,48,0.15)',
+      'Parks & Environment': 'rgba(34,197,94,0.15)',
+      'Public Transport': 'rgba(139,92,246,0.15)',
+      'Health Services': 'rgba(232,72,85,0.15)',
+      'Public Wi-Fi': 'rgba(26,60,94,0.15)',
+    };
+    return map[catKey] || 'rgba(26,60,94,0.1)';
+  },
+
+  _catIcon(catKey) {
+    const map = {
+      'Roads & Infrastructure':'🚧','Water & Sewage':'💧','Waste Management':'🗑️',
+      'Street Lighting':'💡','Parks & Environment':'🌳','Public Transport':'🚌',
+      'Health Services':'🏥','Public Wi-Fi':'📶',
+    };
+    return map[catKey] || '📋';
+  },
+
+  _avatarColors: ['#8B5CF6','#4FACDE','#F4A261','#00C896','#E84855','#1A3C5E'],
+};
+
+// ── CATEGORIES ──────────────────────────────────────────
+const CATEGORIES = [
+  { name:'Roads & Infrastructure', icon:'🚧', color:'#F4A261', bg:'rgba(244,162,97,0.1)', badge:'Most Reported' },
+  { name:'Water & Sewage',         icon:'💧', color:'#4FACDE', bg:'rgba(79,172,222,0.1)',  badge:'' },
+  { name:'Waste Management',       icon:'🗑️', color:'#00C896', bg:'rgba(0,200,150,0.1)',  badge:'' },
+  { name:'Street Lighting',        icon:'💡', color:'#F4C430', bg:'rgba(244,196,48,0.1)', badge:'' },
+  { name:'Parks & Environment',    icon:'🌳', color:'#22C55E', bg:'rgba(34,197,94,0.1)',  badge:'' },
+  { name:'Public Transport',       icon:'🚌', color:'#8B5CF6', bg:'rgba(139,92,246,0.1)', badge:'' },
+  { name:'Health Services',        icon:'🏥', color:'#E84855', bg:'rgba(232,72,85,0.1)',  badge:'Urgent' },
+  { name:'Public Wi-Fi',           icon:'📶', color:'#1A3C5E', bg:'rgba(26,60,94,0.1)',   badge:'' },
 ];
 
-const catGrid = document.getElementById('catGrid');
-categories.forEach((cat, i) => {
-  const el = document.createElement('div');
-  el.className = 'cat-card';
-  el.style.cssText = `--cat-color:${cat.color};--cat-bg:${cat.bg}`;
-  el.innerHTML = `
-    <div class="cat-icon">${cat.icon}</div>
-    <div>
-      <div class="cat-name">${cat.name}</div>
-      <div class="cat-count">${cat.count} complaints</div>
-    </div>
-    ${cat.badge ? `<div class="cat-badge">${cat.badge}</div>` : ''}
-  `;
-  el.onclick = () => {
-    document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('active'));
-    el.classList.add('active');
-    document.getElementById('f-cat').value = cat.icon + ' ' + cat.name;
-    document.querySelector('#report').scrollIntoView({ behavior: 'smooth' });
-    showToast(`Category "${cat.name}" selected`, 'Quick Select');
-  };
-  catGrid.appendChild(el);
-});
+function renderCategories() {
+  const grid = document.getElementById('catGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  CATEGORIES.forEach(cat => {
+    const count = DB.complaints.filter(c => c.catKey === cat.name).length;
+    const el = document.createElement('div');
+    el.className = 'cat-card';
+    el.style.cssText = `--cat-color:${cat.color};--cat-bg:${cat.bg}`;
+    el.innerHTML = `
+      <div class="cat-icon">${cat.icon}</div>
+      <div>
+        <div class="cat-name">${cat.name}</div>
+        <div class="cat-count">${count} complaint${count !== 1 ? 's' : ''}</div>
+      </div>
+      ${cat.badge ? `<div class="cat-badge">${cat.badge}</div>` : ''}
+    `;
+    el.addEventListener('click', () => {
+      document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      // FIX: select option by value (value attr set correctly now)
+      const sel = document.getElementById('f-cat');
+      if (sel) sel.value = cat.name;
+      document.getElementById('report').scrollIntoView({ behavior: 'smooth' });
+      showToast(`Category "${cat.name}" selected — fill in the form below`, 'Quick Select');
+    });
+    grid.appendChild(el);
+  });
+}
 
-// ── COMPLAINTS DATA ──
-const complaints = [
-  { id: '#CP-2025-001', title: 'Pothole on MG Road near Bus Stop', cat: '🚧', catName: 'Roads', ward: 'Ward 12', name: 'Rahul Sharma', date: '12 Mar 2025', status: 'progress', priority: '🔴 High', dept: 'Roads & Infrastructure', addr: 'Near HDFC Bank, MG Road, Andheri East', desc: 'A large pothole has formed near the main bus stop causing danger to vehicles and pedestrians. Multiple accidents reported in the past week.', iconBg: 'rgba(244,162,97,0.15)', timeline: ['done','done','current','',''] },
-  { id: '#CP-2025-002', title: 'Water Pipe Leakage — Bandra West', cat: '💧', catName: 'Water', ward: 'Ward 4', name: 'Priya Nair', date: '10 Mar 2025', status: 'open', priority: '🔴 High', dept: 'Water & Sewage', addr: 'Carter Road, Bandra West', desc: 'Major pipe leakage causing waterlogging on the main road. Residents unable to use the road.', iconBg: 'rgba(79,172,222,0.15)', timeline: ['done','','','',''] },
-  { id: '#CP-2025-003', title: 'Overflowing Garbage Bins — Juhu', cat: '🗑️', catName: 'Waste', ward: 'Ward 8', name: 'Aarav Mehta', date: '09 Mar 2025', status: 'resolved', priority: '🟡 Medium', dept: 'Waste Management', addr: 'Juhu Tara Road, near Market', desc: 'Garbage bins overflowing for 3 days. Causing unhygienic conditions and foul smell in the area.', iconBg: 'rgba(0,200,150,0.15)', timeline: ['done','done','done','done','done'] },
-  { id: '#CP-2025-004', title: 'Street Light Not Working — Kurla', cat: '💡', catName: 'Lighting', ward: 'Ward 9', name: 'Sunita Desai', date: '08 Mar 2025', status: 'progress', priority: '🟡 Medium', dept: 'Street Lighting', addr: 'LBS Marg, Kurla West', desc: 'Three consecutive streetlights on LBS Marg have been non-functional for over a week, causing safety concerns at night.', iconBg: 'rgba(244,196,48,0.15)', timeline: ['done','done','current','',''] },
-  { id: '#CP-2025-005', title: 'Park Damaged — Malad West', cat: '🌳', catName: 'Parks', ward: 'Ward 10', name: 'Vijay Kumar', date: '07 Mar 2025', status: 'review', priority: '🟢 Low', dept: 'Parks & Environment', addr: 'Inorbit Mall Road, Malad West', desc: 'Benches and playground equipment in the community park are damaged. Unsafe for children.', iconBg: 'rgba(34,197,94,0.15)', timeline: ['done','done','done','current',''] },
-  { id: '#CP-2025-006', title: 'Bus Route Cancelled — Borivali', cat: '🚌', catName: 'Transport', ward: 'Ward 3', name: 'Meena Joshi', date: '06 Mar 2025', status: 'open', priority: '🟡 Medium', dept: 'Public Transport', addr: 'Borivali Station West', desc: 'Bus route 408 has been cancelled without notice, causing commuter hardship for hundreds of residents.', iconBg: 'rgba(139,92,246,0.15)', timeline: ['done','','','',''] },
-];
-
+// ── TRACKER STATE ────────────────────────────────────────
 let currentFilter = 'all';
 let searchTerm = '';
+let selectedComplaintId = null;
+
+function getBadgeClass(s) {
+  return { open:'badge-open', progress:'badge-progress', resolved:'badge-resolved', review:'badge-review' }[s] || 'badge-open';
+}
+function getStatusLabel(s) {
+  return { open:'Open', progress:'In Progress', resolved:'Resolved', review:'Under Review' }[s] || s;
+}
+function fmtDate(d) {
+  if (!d) return '—';
+  return new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+}
+function priorityLabel(p) {
+  return { high:'🔴 High', medium:'🟡 Medium', low:'🟢 Low' }[p] || p;
+}
+function getTimeline(c) {
+  const steps = [
+    'Complaint Registered',
+    'Assigned to Department',
+    'Field Inspection',
+    'Repair / Resolution Work',
+    'Issue Closed',
+  ];
+  const statusStep = { open: 0, progress: 2, review: 3, resolved: 4 };
+  const reached = statusStep[c.status] ?? 0;
+  return steps.map((label, i) => ({
+    label,
+    state: i < reached ? 'done' : i === reached ? 'current' : '',
+    date: i === 0 ? fmtDate(c.date) : i <= reached ? '—' : 'Awaiting',
+  }));
+}
 
 function renderComplaints() {
   const list = document.getElementById('complaintList');
-  let filtered = complaints.filter(c => {
-    if (currentFilter !== 'all' && c.status !== currentFilter) return false;
-    if (searchTerm && !c.title.toLowerCase().includes(searchTerm) && !c.id.toLowerCase().includes(searchTerm) && !c.ward.toLowerCase().includes(searchTerm)) return false;
-    return true;
-  });
-  list.innerHTML = filtered.length ? filtered.map((c,i) => `
-    <div class="complaint-item${i===0?' selected':''}" onclick="showDetail(${complaints.indexOf(c)})">
+  if (!list) return;
+  const data = DB.getFiltered(currentFilter, searchTerm);
+
+  if (!data.length) {
+    list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-muted);font-size:0.875rem;">No complaints found matching your criteria.</div>';
+    return;
+  }
+
+  list.innerHTML = data.map(c => `
+    <div class="complaint-item${c.id === selectedComplaintId ? ' selected' : ''}" onclick="showDetail('${c.id}')">
       <div class="item-cat-icon" style="background:${c.iconBg}">${c.cat}</div>
       <div class="item-details">
-        <div class="item-title">${c.title}</div>
-        <div class="item-meta">${c.id} · ${c.ward}</div>
+        <div class="item-title">${escHtml(c.title)}</div>
+        <div class="item-meta">${c.id} · ${c.ward.split('—')[0].trim()}</div>
       </div>
       <div class="item-right">
         <div class="status-badge ${getBadgeClass(c.status)}">${getStatusLabel(c.status)}</div>
-        <div class="item-date">${c.date}</div>
+        <div class="item-date">${fmtDate(c.date)}</div>
       </div>
     </div>
-  `).join('') : '<div style="text-align:center;padding:2rem;color:var(--text-muted);font-size:0.875rem;">No complaints found</div>';
+  `).join('');
 }
 
-function getBadgeClass(s) { return {open:'badge-open',progress:'badge-progress',resolved:'badge-resolved',review:'badge-review'}[s]||'badge-open'; }
-function getStatusLabel(s) { return {open:'Open',progress:'In Progress',resolved:'Resolved',review:'Under Review'}[s]||s; }
+function showDetail(id) {
+  selectedComplaintId = id;
+  const c = DB.complaints.find(x => x.id === id);
+  if (!c) return;
 
-function showDetail(idx) {
-  const c = complaints[idx];
-  document.getElementById('detail-title').textContent = c.title;
   document.getElementById('detail-icon').textContent = c.cat;
-  document.getElementById('detail-id').textContent = c.id;
-  document.getElementById('detail-ward').textContent = c.ward;
-  document.getElementById('detail-cat').textContent = c.catName;
+  document.getElementById('detail-title').textContent = c.title;
+  document.getElementById('detail-id').textContent = '#' + c.id;
+  document.getElementById('detail-ward').textContent = c.ward.split('—')[0].trim();
+  document.getElementById('detail-cat').textContent = c.catKey.split(' ')[0];
   document.getElementById('detail-name').textContent = c.name;
-  document.getElementById('detail-date').textContent = c.date;
-  document.getElementById('detail-priority').textContent = c.priority;
+  document.getElementById('detail-date').textContent = fmtDate(c.date);
+  document.getElementById('detail-priority').textContent = priorityLabel(c.priority);
   document.getElementById('detail-dept').textContent = c.dept;
   document.getElementById('detail-addr').textContent = c.addr;
   document.getElementById('detail-desc').textContent = c.desc;
-  const tls = ['Complaint Registered','Assigned to Department','Field Inspection Scheduled','Repair Works','Issue Resolved & Closed'];
-  const tld = ['Filed','Assigned','Inspection','In Progress','Completed'];
-  document.getElementById('detail-timeline').innerHTML = tls.map((t,i) => `
-    <div class="timeline-item ${c.timeline[i]}">
-      <div class="timeline-title">${t}</div>
-      <div class="timeline-date">${c.timeline[i]==='done'?c.date.split(' ')[0]+' Mar 2025 · Completed':c.timeline[i]==='current'?'In Progress':'Awaiting'}</div>
+
+  // Timeline
+  document.getElementById('detail-timeline').innerHTML = getTimeline(c).map(t => `
+    <div class="timeline-item ${t.state}">
+      <div class="timeline-title">${t.label}</div>
+      <div class="timeline-date">${t.date}</div>
     </div>
   `).join('');
-  document.querySelectorAll('.complaint-item').forEach(el=>el.classList.remove('selected'));
-  renderComplaints();
-  setTimeout(()=>{
-    const items = document.querySelectorAll('.complaint-item');
-    if(items[idx]||items[0]) (items[idx]||items[0]).classList.add('selected');
-  },10);
+
+  // Comments / Activity log
+  const commSection = document.getElementById('detail-comments');
+  let html = `
+    <div style="margin-top:1.25rem">
+      <label style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:0.75rem;font-weight:600;display:block;">
+        Activity Log (${c.comments.length})
+      </label>`;
+  if (c.comments.length) {
+    html += c.comments.map(cm => `
+      <div style="background:var(--bg);border-radius:10px;padding:0.75rem 1rem;margin-bottom:0.5rem;border:1px solid var(--border);">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <span style="font-size:0.78rem;font-weight:600;color:var(--primary)">${escHtml(cm.author)}</span>
+          <span style="font-size:0.7rem;color:var(--text-muted)">${fmtDate(cm.date)}</span>
+        </div>
+        <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.5">${escHtml(cm.text)}</p>
+      </div>
+    `).join('');
+  } else {
+    html += '<p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.75rem;">No activity logged yet.</p>';
+  }
+
+  html += `
+    <div style="display:flex;gap:8px;margin-top:0.75rem;flex-wrap:wrap">
+      <button class="btn btn-outline" style="font-size:0.78rem;padding:7px 14px" onclick="upvoteComplaint('${c.id}')">
+        👍 Support (<span id="uv-${c.id}">${c.upvotes}</span>)
+      </button>
+      <button class="btn btn-outline" style="font-size:0.78rem;padding:7px 14px" onclick="openAdminPanel('${c.id}')">
+        ⚙️ Admin Update
+      </button>
+    </div>
+  </div>`;
+
+  commSection.innerHTML = html;
+  renderComplaints(); // refresh selection highlight
+}
+
+function upvoteComplaint(id) {
+  const newCount = DB.upvote(id);
+  const el = document.getElementById('uv-' + id);
+  if (el) el.textContent = newCount;
+  showToast('Your support has been registered!', 'Upvoted 👍');
 }
 
 function filterTab(el, filter) {
   currentFilter = filter;
-  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
   renderComplaints();
 }
 
 function filterComplaints(val) {
-  searchTerm = val.toLowerCase();
+  searchTerm = val.trim().toLowerCase();
   renderComplaints();
 }
 
-renderComplaints();
-
-// ── BAR CHART ──
-const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const complaints_data = [210,185,320,280,350,290,410,380,320,440,390,450];
-const resolved_data   = [190,170,295,260,320,270,380,350,300,410,360,420];
-const barChart = document.getElementById('barChart');
-const maxVal = Math.max(...complaints_data);
-months.forEach((m,i) => {
-  barChart.innerHTML += `
-    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; position:relative; height:100%;">
-      <div class="bar" style="width:42%; height:${(complaints_data[i]/maxVal)*90}%; background:rgba(26,60,94,0.2); animation-delay:${i*0.05}s"></div>
-      <div class="bar" style="width:42%; height:${(resolved_data[i]/maxVal)*90}%; background:var(--accent); animation-delay:${i*0.05+0.02}s; margin-top:2px"></div>
-      <div style="font-size:0.6rem; color:var(--text-muted); position:absolute; bottom:-18px;">${m}</div>
-    </div>`;
-});
-
-// ── DONUT CHART ──
-const donutData = [
-  { label:'Roads', val:842, color:'#F4A261' },
-  { label:'Waste', val:621, color:'#00C896' },
-  { label:'Water', val:534, color:'#4FACDE' },
-  { label:'Transport', val:312, color:'#8B5CF6' },
-  { label:'Other', val:515, color:'#1A3C5E' },
-];
-const total = donutData.reduce((s,d)=>s+d.val,0);
-let offset = 0;
-const r = 45, cx = 65, cy = 65;
-let svgPaths = '';
-donutData.forEach(d => {
-  const pct = d.val/total;
-  const angle = pct * 360;
-  const rad = (v) => v * Math.PI / 180;
-  const x1 = cx + r*Math.sin(rad(offset));
-  const y1 = cy - r*Math.cos(rad(offset));
-  const x2 = cx + r*Math.sin(rad(offset+angle));
-  const y2 = cy - r*Math.cos(rad(offset+angle));
-  const large = angle > 180 ? 1 : 0;
-  svgPaths += `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z" fill="${d.color}" opacity="0.85" class="donut-seg" style="cursor:pointer;transition:opacity 0.2s" onmouseenter="this.style.opacity=1" onmouseleave="this.style.opacity=0.85"/>`;
-  offset += angle;
-});
-svgPaths += `<circle cx="${cx}" cy="${cy}" r="28" fill="white"/><text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="11" font-weight="700" fill="#1A3C5E" font-family="Syne">${total}</text><text x="${cx}" y="${cy+10}" text-anchor="middle" font-size="7" fill="#9BB5CC">Total</text>`;
-document.getElementById('donutSVG').innerHTML = svgPaths;
-document.getElementById('donutLegend').innerHTML = donutData.map(d=>`
-  <div class="legend-item">
-    <div class="legend-dot" style="background:${d.color}"></div>
-    <span class="legend-label">${d.label}</span>
-    <span class="legend-val">${d.val}</span>
-  </div>`).join('');
-
-// ── FEEDBACK CARDS ──
-const feedbacks = [
-  { name:'Ananya Singh', initials:'AS', bg:'#8B5CF6', date:'8 Mar 2025', stars:5, text:'The pothole on my street was fixed within 48 hours of reporting! Impressed with the quick response from the Roads department.', tag:'Roads — Resolved' },
-  { name:'Kiran Patel', initials:'KP', bg:'#4FACDE', date:'5 Mar 2025', stars:4, text:'Water supply issue resolved in 3 days. Would appreciate faster turnaround but overall the experience was smooth and updates were timely.', tag:'Water — Resolved' },
-  { name:'Deepak Roy', initials:'DR', bg:'#F4A261', date:'2 Mar 2025', stars:5, text:'Excellent system! I could track my complaint in real-time. The transparency in the process gives me confidence in city administration.', tag:'Waste — Resolved' },
-];
-document.getElementById('feedbackCards').innerHTML = feedbacks.map(f=>`
-  <div class="feedback-card">
-    <div class="feedback-card-header">
-      <div class="feedback-avatar" style="background:${f.bg}">${f.initials}</div>
-      <div><div class="feedback-name">${f.name}</div><div class="feedback-date">${f.date}</div></div>
-    </div>
-    <div class="star-row">${[1,2,3,4,5].map(s=>`<span class="star ${s<=f.stars?'filled':'empty'}">★</span>`).join('')}</div>
-    <p class="feedback-text">${f.text}</p>
-    <span class="feedback-tag">${f.tag}</span>
-  </div>`).join('');
-
-// ── CITY MAP ──
-const mapSVG = document.getElementById('cityMap');
-const mapBg = `<rect width="900" height="380" fill="#EEF3F8" rx="0"/>
-<rect x="50" y="30" width="800" height="320" fill="#E2ECF5" rx="8"/>
-<path d="M50 130 Q200 110 350 130 Q500 150 650 125 Q750 110 850 130" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
-<path d="M50 200 Q200 180 350 200 Q500 220 650 195 Q750 180 850 200" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
-<path d="M200 30 Q190 180 200 350" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
-<path d="M450 30 Q440 180 450 350" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
-<path d="M700 30 Q690 180 700 350" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
-<rect x="120" y="60" width="60" height="40" rx="4" fill="#D4E4F5" opacity="0.8"/>
-<rect x="200" y="45" width="80" height="55" rx="4" fill="#C8D9EC" opacity="0.7"/>
-<rect x="310" y="60" width="50" height="35" rx="4" fill="#D4E4F5" opacity="0.8"/>
-<rect x="520" y="55" width="70" height="45" rx="4" fill="#C8D9EC" opacity="0.7"/>
-<rect x="620" y="65" width="55" height="30" rx="4" fill="#D4E4F5" opacity="0.8"/>
-<rect x="750" y="50" width="65" height="40" rx="4" fill="#C8D9EC" opacity="0.7"/>
-<rect x="130" y="220" width="50" height="40" rx="4" fill="#D4E4F5" opacity="0.7"/>
-<rect x="350" y="230" width="75" height="50" rx="4" fill="#C8D9EC" opacity="0.6"/>
-<rect x="580" y="225" width="60" height="45" rx="4" fill="#D4E4F5" opacity="0.7"/>
-<rect x="760" y="230" width="55" height="35" rx="4" fill="#C8D9EC" opacity="0.6"/>
-<text x="150" y="90" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Borivali</text>
-<text x="240" y="75" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Malad</text>
-<text x="325" y="84" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Andheri</text>
-<text x="535" y="80" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Kurla</text>
-<text x="638" y="86" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Ghatkopar</text>
-<text x="770" y="74" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Vikhroli</text>
-<text x="148" y="248" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Bandra</text>
-<text x="365" y="260" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Chembur</text>
-<text x="596" y="252" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Dharavi</text>
-<text x="770" y="256" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Santacruz</text>`;
-
-const hotspots = [
-  { x:240, y:170, r:28, color:'#E84855', label:'42 Issues', name:'Malad' },
-  { x:340, y:155, r:22, color:'#F4A261', label:'28 Issues', name:'Andheri' },
-  { x:160, y:190, r:18, color:'#00C896', label:'12 Issues', name:'Borivali' },
-  { x:550, y:165, r:25, color:'#F4A261', label:'31 Issues', name:'Kurla' },
-  { x:660, y:175, r:14, color:'#00C896', label:'8 Issues', name:'Ghatkopar' },
-  { x:800, y:160, r:20, color:'#4FACDE', label:'Resolved', name:'Vikhroli' },
-  { x:170, y:270, r:16, color:'#F4A261', label:'19 Issues', name:'Bandra' },
-  { x:400, y:280, r:30, color:'#E84855', label:'47 Issues', name:'Chembur' },
-  { x:610, y:275, r:20, color:'#F4A261', label:'22 Issues', name:'Dharavi' },
-  { x:790, y:270, r:14, color:'#4FACDE', label:'Resolved', name:'Santacruz' },
-];
-
-mapSVG.innerHTML = mapBg + hotspots.map(h=>`
-  <g class="map-hotspot" onclick="showToast('${h.name}: ${h.label}','City Map')">
-    <circle cx="${h.x}" cy="${h.y}" r="${h.r+8}" fill="${h.color}" opacity="0.08"/>
-    <circle cx="${h.x}" cy="${h.y}" r="${h.r}" fill="${h.color}" opacity="0.25"/>
-    <circle cx="${h.x}" cy="${h.y}" r="${h.r*0.55}" fill="${h.color}" opacity="0.8"/>
-    <text x="${h.x}" y="${h.y+3}" text-anchor="middle" font-size="7" fill="white" font-weight="700" font-family="DM Sans">${h.label.split(' ')[0]}</text>
-  </g>`).join('');
-
-// ── PRIORITY SELECTOR ──
-function setPriority(el, level) {
-  document.querySelectorAll('.priority-btn').forEach(b=>{b.classList.remove('active')});
-  el.classList.add('active');
+// ── ADMIN PANEL ──────────────────────────────────────────
+function openAdminPanel(id) {
+  const c = DB.complaints.find(x => x.id === id);
+  if (!c) return;
+  document.getElementById('adminComplaintId').value = id;
+  document.getElementById('adminStatusSelect').value = c.status;
+  document.getElementById('adminOfficerName').value = '';
+  document.getElementById('adminCommentText').value = '';
+  document.getElementById('adminModal').classList.add('open');
 }
 
-// ── FORM SUBMIT ──
-function submitComplaint() {
-  const name = document.getElementById('f-name').value;
-  const phone = document.getElementById('f-phone').value;
-  const cat = document.getElementById('f-cat').value;
-  const ward = document.getElementById('f-ward').value;
-  const title = document.getElementById('f-title').value;
-  const desc = document.getElementById('f-desc').value;
-  if (!name || !phone || !cat || !ward || !title || !desc) {
-    showToast('Please fill in all required fields', 'Validation Error', 'error');
+function saveAdminUpdate() {
+  const id = document.getElementById('adminComplaintId').value;
+  const newStatus = document.getElementById('adminStatusSelect').value;
+  const comment = document.getElementById('adminCommentText').value.trim();
+  const officer = document.getElementById('adminOfficerName').value.trim() || 'Admin Officer';
+
+  if (!comment) {
+    showToast('Please add an activity note before saving', 'Validation', 'error');
     return;
   }
-  const id = '#CP-2025-' + (Math.floor(Math.random()*9000)+1000);
-  document.getElementById('generatedId').textContent = id;
+
+  DB.updateStatus(id, newStatus);
+  DB.addComment(id, officer, comment);
+  closeAdminModal();
+  showDetail(id);
+  refreshStats();
+  renderCategories();
+  showToast(`Complaint ${id} updated to "${getStatusLabel(newStatus)}"`, 'Admin Update ✅');
+}
+
+function closeAdminModal() {
+  document.getElementById('adminModal').classList.remove('open');
+}
+
+// ── LIVE STATS ────────────────────────────────────────────
+function refreshStats() {
+  const s = DB.getStats();
+  const el = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+  el('stat-total', s.total);
+  el('stat-resolved', s.resolved);
+  el('stat-inprogress', s.inProgress);
+  el('stat-rate', s.rate + '%');
+  // Update hero stat too
+  el('hero-stat-resolved', s.resolved.toLocaleString());
+  // Update map counter
+  const openCount = s.open + s.inProgress;
+  const mc = document.getElementById('mapCounter');
+  if (mc) mc.innerHTML = `${openCount} <span>Active Issues</span>`;
+}
+
+// ── BAR CHART ─────────────────────────────────────────────
+// FIX: proper grouped bar chart — both bars per month side by side
+function renderBarChart() {
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const submitted = [210,185,320,280,350,290,410,380,320,440,390,450];
+  const resolved  = [190,170,295,260,320,270,380,350,300,410,360,420];
+  const maxVal = Math.max(...submitted);
+  const container = document.getElementById('barChart');
+  if (!container) return;
+  container.innerHTML = '';
+
+  months.forEach((m, i) => {
+    const group = document.createElement('div');
+    group.className = 'bar-group';
+
+    const subHeight = Math.round((submitted[i] / maxVal) * 160);
+    const resHeight = Math.round((resolved[i] / maxVal) * 160);
+
+    group.innerHTML = `
+      <div class="bar" style="height:${subHeight}px;background:rgba(26,60,94,0.25);animation-delay:${i * 0.04}s"
+           title="${m}: ${submitted[i]} submitted"></div>
+      <div class="bar" style="height:${resHeight}px;background:var(--accent);animation-delay:${i * 0.04 + 0.02}s"
+           title="${m}: ${resolved[i]} resolved"></div>
+      <div class="bar-month-label">${m}</div>
+    `;
+    container.appendChild(group);
+  });
+}
+
+// ── DONUT CHART ───────────────────────────────────────────
+function renderDonut() {
+  const donutData = [
+    { label:'Roads',     val:842, color:'#F4A261' },
+    { label:'Waste',     val:621, color:'#00C896' },
+    { label:'Water',     val:534, color:'#4FACDE' },
+    { label:'Transport', val:312, color:'#8B5CF6' },
+    { label:'Other',     val:515, color:'#1A3C5E' },
+  ];
+  const total = donutData.reduce((s, d) => s + d.val, 0);
+  const r = 45, cx = 65, cy = 65;
+  let offset = -90; // start from top
+  let paths = '';
+
+  donutData.forEach(d => {
+    const pct = d.val / total;
+    const angle = pct * 360;
+    const toRad = v => v * Math.PI / 180;
+    const x1 = cx + r * Math.cos(toRad(offset));
+    const y1 = cy + r * Math.sin(toRad(offset));
+    const x2 = cx + r * Math.cos(toRad(offset + angle));
+    const y2 = cy + r * Math.sin(toRad(offset + angle));
+    const large = angle > 180 ? 1 : 0;
+    paths += `<path d="M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z"
+      fill="${d.color}" opacity="0.85"
+      onmouseenter="this.style.opacity=1;this.style.filter='drop-shadow(0 2px 6px ${d.color}88)'"
+      onmouseleave="this.style.opacity=0.85;this.style.filter='none'"
+      style="cursor:pointer;transition:opacity 0.2s,filter 0.2s"/>`;
+    offset += angle;
+  });
+
+  paths += `
+    <circle cx="${cx}" cy="${cy}" r="30" fill="white"/>
+    <text x="${cx}" y="${cy - 4}" text-anchor="middle" font-size="11" font-weight="700" fill="#1A3C5E" font-family="Syne">${total.toLocaleString()}</text>
+    <text x="${cx}" y="${cy + 10}" text-anchor="middle" font-size="7" fill="#9BB5CC">Total</text>
+  `;
+
+  const svg = document.getElementById('donutSVG');
+  const legend = document.getElementById('donutLegend');
+  if (svg) svg.innerHTML = paths;
+  if (legend) {
+    legend.innerHTML = donutData.map(d => `
+      <div class="legend-item">
+        <div class="legend-dot" style="background:${d.color}"></div>
+        <span class="legend-label">${d.label}</span>
+        <span class="legend-val">${d.val}</span>
+      </div>
+    `).join('');
+  }
+}
+
+// ── FEEDBACK CARDS ────────────────────────────────────────
+function renderFeedbacks() {
+  const container = document.getElementById('feedbackCards');
+  if (!container) return;
+  container.innerHTML = DB.feedbacks.slice(0, 3).map(f => `
+    <div class="feedback-card">
+      <div class="feedback-card-header">
+        <div class="feedback-avatar" style="background:${f.bg}">${f.initials}</div>
+        <div>
+          <div class="feedback-name">${escHtml(f.name)}</div>
+          <div class="feedback-date">${f.date}</div>
+        </div>
+      </div>
+      <div class="star-row">
+        ${[1,2,3,4,5].map(s => `<span class="star ${s <= f.stars ? 'filled' : 'empty'}">★</span>`).join('')}
+      </div>
+      <p class="feedback-text">${escHtml(f.text)}</p>
+      <span class="feedback-tag">${f.tag}</span>
+    </div>
+  `).join('');
+}
+
+// ── CITY MAP ──────────────────────────────────────────────
+function renderMap() {
+  const mapSVG = document.getElementById('cityMap');
+  if (!mapSVG) return;
+
+  const bg = `
+    <rect width="900" height="380" fill="#EEF3F8"/>
+    <rect x="50" y="30" width="800" height="320" fill="#E2ECF5" rx="8"/>
+    <path d="M50 130 Q200 110 350 130 Q500 150 650 125 Q750 110 850 130" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
+    <path d="M50 200 Q200 180 350 200 Q500 220 650 195 Q750 180 850 200" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
+    <path d="M200 30 Q190 180 200 350" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
+    <path d="M450 30 Q440 180 450 350" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
+    <path d="M700 30 Q690 180 700 350" stroke="#C8D9EC" stroke-width="1.5" fill="none"/>
+    <rect x="120" y="60" width="60" height="40" rx="4" fill="#D4E4F5" opacity="0.8"/>
+    <rect x="200" y="45" width="80" height="55" rx="4" fill="#C8D9EC" opacity="0.7"/>
+    <rect x="310" y="60" width="50" height="35" rx="4" fill="#D4E4F5" opacity="0.8"/>
+    <rect x="520" y="55" width="70" height="45" rx="4" fill="#C8D9EC" opacity="0.7"/>
+    <rect x="620" y="65" width="55" height="30" rx="4" fill="#D4E4F5" opacity="0.8"/>
+    <rect x="750" y="50" width="65" height="40" rx="4" fill="#C8D9EC" opacity="0.7"/>
+    <rect x="130" y="220" width="50" height="40" rx="4" fill="#D4E4F5" opacity="0.7"/>
+    <rect x="350" y="230" width="75" height="50" rx="4" fill="#C8D9EC" opacity="0.6"/>
+    <rect x="580" y="225" width="60" height="45" rx="4" fill="#D4E4F5" opacity="0.7"/>
+    <rect x="760" y="230" width="55" height="35" rx="4" fill="#C8D9EC" opacity="0.6"/>
+    <text x="150" y="90" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Borivali</text>
+    <text x="240" y="75" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Malad</text>
+    <text x="325" y="84" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Andheri</text>
+    <text x="535" y="80" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Kurla</text>
+    <text x="638" y="86" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Ghatkopar</text>
+    <text x="770" y="74" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Vikhroli</text>
+    <text x="148" y="248" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Bandra</text>
+    <text x="365" y="260" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Chembur</text>
+    <text x="596" y="252" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Dharavi</text>
+    <text x="770" y="256" font-size="8" fill="#9BB5CC" font-family="DM Sans" font-weight="500">Santacruz</text>
+  `;
+
+  const hotspots = [
+    { x:240, y:170, r:28, color:'#E84855', label:'42', name:'Malad' },
+    { x:340, y:155, r:22, color:'#F4A261', label:'28', name:'Andheri' },
+    { x:160, y:190, r:18, color:'#00C896', label:'12', name:'Borivali' },
+    { x:550, y:165, r:25, color:'#F4A261', label:'31', name:'Kurla' },
+    { x:660, y:175, r:14, color:'#00C896', label:'8',  name:'Ghatkopar' },
+    { x:800, y:160, r:20, color:'#4FACDE', label:'✓',  name:'Vikhroli' },
+    { x:170, y:270, r:16, color:'#F4A261', label:'19', name:'Bandra' },
+    { x:400, y:280, r:30, color:'#E84855', label:'47', name:'Chembur' },
+    { x:610, y:275, r:20, color:'#F4A261', label:'22', name:'Dharavi' },
+    { x:790, y:270, r:14, color:'#4FACDE', label:'✓',  name:'Santacruz' },
+  ];
+
+  // FIX: use filter brightness for hover instead of SVG r property
+  const hotspotsSVG = hotspots.map(h => `
+    <g class="map-hotspot" onclick="showToast('${h.name}: ${h.label === '✓' ? 'Resolved Zone' : h.label + ' active issues'}','City Map')">
+      <circle cx="${h.x}" cy="${h.y}" r="${h.r + 10}" fill="${h.color}" opacity="0.07"/>
+      <circle cx="${h.x}" cy="${h.y}" r="${h.r}" fill="${h.color}" opacity="0.22"/>
+      <circle cx="${h.x}" cy="${h.y}" r="${Math.round(h.r * 0.58)}" fill="${h.color}" opacity="0.85"/>
+      <text x="${h.x}" y="${h.y + 4}" text-anchor="middle" font-size="8" fill="white" font-weight="700" font-family="DM Sans">${h.label}</text>
+    </g>
+  `).join('');
+
+  mapSVG.innerHTML = bg + hotspotsSVG;
+}
+
+// ── FORM SUBMISSION ───────────────────────────────────────
+function submitComplaint() {
+  const name  = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const catKey = document.getElementById('f-cat').value; // value is already clean text
+  const ward  = document.getElementById('f-ward').value;
+  const addr  = document.getElementById('f-address').value.trim();
+  const title = document.getElementById('f-title').value.trim();
+  const desc  = document.getElementById('f-desc').value.trim();
+
+  if (!name || !phone || !catKey || !ward || !addr || !title || !desc) {
+    showToast('Please fill in all required fields marked with *', 'Validation Error', 'error');
+    return;
+  }
+
+  const newC = DB.addComplaint({
+    name, phone, email, catKey,
+    cat: DB._catIcon(catKey),
+    ward, addr, title, desc,
+    priority: window._selectedPriority || 'low',
+    dept: catKey,
+  });
+
+  document.getElementById('generatedId').textContent = '#' + newC.id;
   document.getElementById('successModal').classList.add('open');
+
+  // Reset form silently (no toast, modal is the confirmation)
+  resetFormFields();
+  refreshStats();
+  renderComplaints();
+  renderCategories();
+
+  // If first complaint shown in detail panel is still default, show new one
+  if (!selectedComplaintId) showDetail(newC.id);
+}
+
+function resetFormFields() {
+  ['f-name','f-phone','f-email','f-address','f-title','f-desc'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const catSel = document.getElementById('f-cat');
+  if (catSel) catSel.value = '';
+  const wardSel = document.getElementById('f-ward');
+  if (wardSel) wardSel.value = '';
+  document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active'));
+  const lowBtn = document.querySelector('.priority-btn.low');
+  if (lowBtn) lowBtn.classList.add('active');
+  window._selectedPriority = 'low';
+  document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('active'));
 }
 
 function clearForm() {
-  ['f-name','f-phone','f-email','f-address','f-title','f-desc'].forEach(id=>{document.getElementById(id).value='';});
-  document.getElementById('f-cat').value='';
-  document.getElementById('f-ward').value='';
-  setPriority(document.querySelector('.priority-btn.low'), 'low');
-  showToast('Form cleared','Form');
+  resetFormFields();
+  showToast('Form cleared', 'Cleared');
 }
 
-function closeModal() { document.getElementById('successModal').classList.remove('open'); }
+function closeModal() {
+  document.getElementById('successModal').classList.remove('open');
+}
 
 function copyId() {
   const id = document.getElementById('generatedId').textContent;
-  navigator.clipboard?.writeText(id).catch(()=>{});
-  showToast('Tracking ID copied to clipboard!','Copied');
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(id).catch(() => {});
+  }
+  showToast('Tracking ID copied to clipboard!', 'Copied 📋');
 }
 
-// ── RATING ──
+// ── PRIORITY ─────────────────────────────────────────────
+window._selectedPriority = 'low';
+function setPriority(el, level) {
+  document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  window._selectedPriority = level;
+}
+
+// ── STAR RATING ───────────────────────────────────────────
 let currentRating = 0;
 function setRating(r) {
   currentRating = r;
-  document.querySelectorAll('.rating-star-btn').forEach((s,i)=>{
+  document.querySelectorAll('.rating-star-btn').forEach((s, i) => {
     s.classList.toggle('active', i < r);
   });
 }
 
 function submitFeedback() {
   if (!currentRating) {
-    showToast('Please select a star rating','Feedback'); return;
+    showToast('Please select a star rating first', 'Feedback', 'error');
+    return;
   }
-  showToast(`Thank you! Your ${currentRating}-star feedback was submitted.`,'Feedback Submitted');
+  const tidInput = document.getElementById('rating-tid');
+  const textInput = document.getElementById('rating-text');
+  const tid  = tidInput ? tidInput.value.trim() : '';
+  const text = textInput ? textInput.value.trim() : '';
+
+  if (!text) {
+    showToast('Please write your feedback text', 'Feedback', 'error');
+    return;
+  }
+
+  const colors = DB._avatarColors;
+  const initials = tid
+    ? tid.replace(/[^A-Z0-9]/gi,'').slice(-2).toUpperCase() || 'CI'
+    : 'CI';
+
+  const linkedComplaint = tid ? DB.complaints.find(c => c.id === tid || '#' + c.id === tid) : null;
+  const tag = linkedComplaint ? `${linkedComplaint.catKey} — Feedback` : 'General Feedback';
+
+  DB.addFeedback({
+    name: tid ? `Citizen (${tid})` : 'Anonymous Citizen',
+    initials,
+    bg: colors[DB.feedbacks.length % colors.length],
+    date: new Date().toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }),
+    stars: currentRating,
+    text,
+    tag,
+  });
+
+  if (tidInput) tidInput.value = '';
+  if (textInput) textInput.value = '';
   currentRating = 0;
-  document.querySelectorAll('.rating-star-btn').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.rating-star-btn').forEach(s => s.classList.remove('active'));
+
+  renderFeedbacks();
+  showToast(`Thank you! Your ${currentRating || ''} ★ feedback has been submitted.`, 'Feedback Submitted ✅');
 }
 
-// ── TOAST ──
-function showToast(msg, title='Notification', type='success') {
+// ── TOAST ─────────────────────────────────────────────────
+function showToast(msg, title = 'Notification', type = 'success') {
   const container = document.getElementById('toastContainer');
+  if (!container) return;
   const toast = document.createElement('div');
-  toast.className = 'toast';
-  if (type === 'error') toast.style.borderLeftColor = '#E84855';
+  toast.className = 'toast' + (type === 'error' ? ' error' : '');
   toast.innerHTML = `
-    <div class="toast-icon">${type==='error'?'⚠️':'✓'}</div>
-    <div class="toast-text"><h4>${title}</h4><p>${msg}</p></div>
-    <button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
+    <div class="toast-icon">${type === 'error' ? '⚠️' : '✓'}</div>
+    <div class="toast-text">
+      <h4>${escHtml(title)}</h4>
+      <p>${escHtml(msg)}</p>
+    </div>
+    <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
+  `;
   container.appendChild(toast);
-  setTimeout(()=>{ toast.style.opacity='0'; toast.style.transform='translateX(20px)'; toast.style.transition='all 0.3s'; setTimeout(()=>toast.remove(),300); }, 3500);
+  setTimeout(() => {
+    toast.style.transition = 'all 0.35s';
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(40px)';
+    setTimeout(() => toast.remove(), 350);
+  }, 3500);
 }
 
-// ── NAV ──
+// ── NAV ACTIVE ────────────────────────────────────────────
 function setActive(el) {
-  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
   el.classList.add('active');
 }
 
-// ── MODAL CLICK OUTSIDE ──
-document.getElementById('successModal').addEventListener('click', function(e){
-  if(e.target===this) closeModal();
+// ── UTILITY ───────────────────────────────────────────────
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+// ── MODAL CLICK OUTSIDE ───────────────────────────────────
+document.getElementById('successModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+document.getElementById('adminModal').addEventListener('click', function(e) {
+  if (e.target === this) closeAdminModal();
 });
 
-// ── SMOOTH SCROLL ──
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click', e=>{
-    const target = document.querySelector(a.getAttribute('href'));
-    if(target) { e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+// ── SMOOTH SCROLL ─────────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const href = a.getAttribute('href');
+    if (href === '#') return;
+    const target = document.querySelector(href);
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior:'smooth' }); }
   });
 });
 
+// ── INTERSECTION OBSERVER FOR NAV HIGHLIGHT ───────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+      });
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// ── INIT (all DOM is ready since script is at end of body) ──
+renderCategories();
+renderComplaints();
+showDetail(DB.complaints[0].id);
+refreshStats();
+renderBarChart();
+renderDonut();
+renderFeedbacks();
+renderMap();
+
 // Welcome toast
-setTimeout(()=>showToast('Welcome to CivicPulse Smart City Portal','👋 Welcome'), 800);
+setTimeout(() => showToast('Live DB active — submit complaints, track status, and give feedback!', '👋 Welcome to CivicPulse'), 900);
 </script>
 </body>
 </html>
